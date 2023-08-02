@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset='utf-8'>
+  <meta http-equiv='X-UA-Compatible' content='IE=edge'>
+  <title>CS:GO Config Maker - by Swai</title>
+  <link rel="icon" href="./content/images/favicon.ico" type="image/x-icon"/>
+  <meta name='viewport' content='width=device-width, initial-scale=1'>
+  <link rel='stylesheet' type='text/css' media='screen' href='style.css'>
+</head>
+<body class="gradient1">
+
+<h1 class="title">CS:GO CONFIG MAKER</h1>
+<textarea id="inputText" spellcheck="false" placeholder="Your text goes here..." rows="10" cols="55"></textarea>
+<br/>
+<br/>
+<br/>
+<div class="fixContainer">
+<textarea id="prefixText" spellcheck="false" placeholder="Prefix input..." rows="1"></textarea>
+<textarea id="suffixText" spellcheck="false" placeholder="Suffix input..." rows="1"></textarea>
+</div>
+<br/>
+
+<select id="dropdown">
+    <option value="empty">Select presets (empty)</option>
+    <option value="preset1">ASCII art with alias</option>
+    <option value="preset2">Crouch bug bind</option>
+    <option value="preset3">Use with clear decals bind</option>
+    <option value="preset4">Scroll wheel jump bind</option>
+    <option value="preset5">Left/right hand toggle bind</option>
+</select>
+
+<dl>
+<dt><strong>[%NUM]</strong></dt>
+<dd>Made for making aliases, that will repeat themselves, use this at the end of an alias.</dd>
+
+<dt><strong>[%NUMALT]</strong></dt>
+<dd>Made for making aliases, that will repeat themselves, use this one at the beginning of an alias.</dd>
+
+<dt><strong>[%NUMIN]</strong></dt>
+<dd>Number increment, the more you add this the higher the number will go.</dd>
+</dl> 
+
+<dt><strong>-command</strong></dt>
+<dd>This is a prefix used for making the list to exclude the commands.</dd>
+<dd><strong class="warningText">WARN!!: (3080 items - might cause lag to not use.)</strong></dd>
+</dl>
+
+<dt><strong>-audio</strong></dt>
+<dd>This is a prefix used for making the list to exclude the audio files.</dd>
+<dd><strong class="warningText">WARN!!: (7101 items - might cause lag to not use.)</strong></dd>
+</dl>
+
+<dt><strong>//</strong></dt>
+<dd>This is a prefix used for "Command Generation" to ignore that specific line.</dd>
+</dl>
+
+<br/>
+<h4>You can also select "Presets" for pre-made aliases, binds and configs. Made by dt123.</h4>
+<textarea id="commandInput" spellcheck="false" placeholder="Start typing..."></textarea>
+<br/>
+<button onclick="copyCommandOutputValue()">Copy</button>
+<br/>
+<br/>
+<button onclick="appendGeneratedCommandTextToParagraph()">Generate Clean Command</button>
+<button onclick="generateOutput()">Generate</button>
+<input type="checkbox" id="incrementCheckbox" checked>
+<label for="incrementCheckbox">Activate RegEx
+<div class="tooltip"><strong>(?)</strong><span class="tooltiptext">Will activate the listed Regular Expression(s):<br/><br/><li>[%NUM],</li><li>[%NUMALT],</li><li>[%NUMIN].</li><br/></span>
+</div>
+</label>
+<br/>
+<br/>
+
+<div class="floating-div">
+    <div class="resize-handle bottom-right"></div>
+    <div class="drag-handle">Command && Audio List:
+    <input id="filterInput" spellcheck="false" placeholder="Add filters..." value="-audio"/>
+    <a id="hideList" onclick="toggleSuggestionsVisibility()">(▼)</a>
+    </div>
+    <br/>
+    <br/>
+    <div id="autofillSuggestions"></div>
+  </div>
+<br/>
+<div id="spellCheckResult">Spell Check: Waiting for input...</div>
+
+<br/>
+<h3>
+<p id="generatedCommandOutput"></p>
+</h3>
+
+<div class="resizableDiv" id="resizableDiv">
+    <textarea id="outputText" spellcheck="false" placeholder="Output text..."></textarea>
+    <button class="copyButton" onclick="copyTextOutputValue()">Copy</button>
+    <p id="copyChecker">Click "Copy" to copy...</p>
+    <div id="resizableHandleOutput" class="resizableHandleOutput"></div>
+</div>
+
+
+
+<footer id="credits"> - made with <a id="forTheFurInYou">❤️</a> by dt123 :3</footer>
+<footer id="refl"> - made with ❤️ by dt123 :3</footer>
+
+<script src='./lists/commandlist.js'></script>
+<script src='./lists/audiolist.js'></script>
+<script src='index.js'></script>
+</body>
+</html>

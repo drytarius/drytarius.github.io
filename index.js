@@ -204,6 +204,7 @@ const inputField = document.getElementById('commandInput');
 const filterField = document.getElementById('filterInput');
 const suggestionsContainer = document.getElementById('autofillSuggestions');
 const toggleSuggestionsButton = document.getElementById('hideList');
+const navigationButtons = document.getElementById('pageNavigationButtons');
 let selectedSuggestionIndex = -1;
 let userInput;
 let lastWordStart;
@@ -229,11 +230,13 @@ function toggleSuggestionsVisibility() {
   floatingDiv.classList.add('height-transition');
 
   if (isSuggestionsVisible) {
+    navigationButtons.style.display = 'none';
     suggestionsContainer.style.display = 'none';
     isSuggestionsVisible = false;
     toggleSuggestionsButton.innerHTML = '(▼)';
     floatingDiv.style.height = '25px';
   } else {
+    navigationButtons.style.display = 'block';
     suggestionsContainer.style.display = 'block';
     isSuggestionsVisible = true;
     toggleSuggestionsButton.innerHTML = '(▲)';
@@ -253,12 +256,18 @@ const autofillOptions = autofillOptionsCommands.concat(autofillOptionsAudio);
 const audioSuggestions = autofillOptions.filter(option => autofillOptionsAudio.includes(option));
 const commandSuggestions = autofillOptions.filter(option => !autofillOptionsAudio.includes(option));
 
+let suggestionsPerPage;
+let currentPage = 1;
+let matchingSuggestions = [];
+
+filterField.value = `-audio show:150`
+
 function updateSuggestions() {
   userInput = inputField.value.toLowerCase();
   lastWordStart = userInput.lastIndexOf(' ') + 1;
   lastWord = userInput.substring(lastWordStart);
 
-  let matchingSuggestions = [];
+
 
   const filterValue = filterField.value;
   if (filterValue.includes('-commands')) {
@@ -271,29 +280,49 @@ function updateSuggestions() {
     showCommands = true;
     showAudio = true;
   }
+  if (filterValue.includes('show:')) {
+    const showPattern = /show:(\d+)/i;
+    const matches = filterValue.match(showPattern);
+    if (matches && matches[1]) {
+      suggestionsPerPage = parseInt(matches[1]);
+      //console.log(`Will show this much: ${suggestionsPerPage}`);
+    } else if (filterValue.includes('show:all')) {
+      suggestionsPerPage = 'all';
+    }
+  }
 
+  // Always filter suggestions based on the input text
   if (showAudio && showCommands) {
-    // If both showAudio and showCommands are true, display all suggestions
     matchingSuggestions = autofillOptions.filter((option) =>
       option.toLowerCase().startsWith(lastWord)
     );
   } else if (showAudio) {
-    // If showAudio is true, display audio suggestions
     matchingSuggestions = audioSuggestions.filter((option) =>
       option.toLowerCase().startsWith(lastWord)
     );
   } else if (showCommands) {
-    // If showCommands is true, display command suggestions
     matchingSuggestions = commandSuggestions.filter((option) =>
       option.toLowerCase().startsWith(lastWord)
     );
   }
 
+  // Apply pagination
+  let paginatedSuggestions;
+  if (suggestionsPerPage === 'all') {
+    paginatedSuggestions = matchingSuggestions;
+  } else {
+    const startIndex = (currentPage - 1) * suggestionsPerPage;
+    const endIndex = startIndex + suggestionsPerPage;
+    paginatedSuggestions = matchingSuggestions.slice(startIndex, endIndex);
+  }
+
+
+
   // Clear previous suggestions
   suggestionsContainer.innerHTML = '';
 
   // Display matching suggestions
-  matchingSuggestions.forEach((suggestion, index) => {
+  paginatedSuggestions.forEach((suggestion, index) => {
     const suggestionElement = document.createElement('div');
 
     // Create the link to list of CVAR(s)
@@ -355,6 +384,47 @@ filterField.addEventListener('change', () => {
   updateSuggestions();
 });
 
+
+
+// Function to go to the previous page
+function goToPreviousPage() {
+  if (currentPage > 1) {
+    currentPage--;
+    //console.log('Current page', currentPage);
+    updateSuggestions();
+  }
+}
+
+// Function to go to the next page
+function goToNextPage() {
+  const totalPages = Math.ceil(matchingSuggestions.length / suggestionsPerPage);
+  if (currentPage < totalPages) {
+    currentPage++;
+    //console.log('Current page', currentPage);
+    updateSuggestions();
+  }
+}
+
+// Event listeners for previous and next buttons
+const previousButton = document.getElementById('previousPage');
+const nextButton = document.getElementById('nextPage');
+
+previousButton.addEventListener('click', goToPreviousPage);
+nextButton.addEventListener('click', goToNextPage);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function highlightSelectedSuggestion() {
   //const suggestions = suggestionsContainer.children;
   const suggestions = suggestionsContainer.querySelectorAll('span');
@@ -394,7 +464,12 @@ function highlightSelectedSuggestion() {
   }
 }
 
-inputField.addEventListener('input', updateSuggestions);
+function runFixedUpdateSuggestions(){
+  currentPage = 1;
+  updateSuggestions();
+}
+
+inputField.addEventListener('input', runFixedUpdateSuggestions);
 
 inputField.addEventListener('keydown', event => {
   if (event.key === 'Tab') {
@@ -733,9 +808,74 @@ window.addEventListener("keydown", handleKeyPress);
 
 
 
+// Save the inputText to localStorage
+// Function to get the current date and time in a readable format
+function getCurrentDateTime() {
+  const now = new Date();
+  return now.toLocaleString(); // Adjust the format as needed
+}
+
+// Define a variable to store the key used to save the data in localStorage
+const localStorageKey = 'userInputData';
+
+// Get the saved data from localStorage and set it to the inputField
+const savedData = JSON.parse(localStorage.getItem(localStorageKey));
+if (savedData) {
+  inputText.value = savedData.content;
+
+  // Log the loaded data and the date and time it was saved to localStorage
+  console.log(`Loaded data ${localStorageKey}: \n\nSaved Data Content:\n${savedData.content}\n\nSaved on ${savedData.timestamp}.\n\nTo see the content of the data, type "localSaveInfo" in the console.`);
+}
+
+// Function to show the success message and fade it out after a delay
+function showSaveMessage() {
+  const displaySavingStatus = document.getElementById('saveStatus');
+  displaySavingStatus.innerHTML = 'Saved successfully!';
+
+  // Show the saveStatus
+  displaySavingStatus.classList.remove('hidden');
+
+  // Turn the color into darkgreen
+  displaySavingStatus.style.color = "darkgreen";
+
+  // Remove the fade-out class if it was previously added
+  displaySavingStatus.classList.remove('fade-out');
+
+  // After 3 seconds, add the fade-out class to trigger the transition effect
+  setTimeout(() => {
+    displaySavingStatus.classList.add('fade-out');
+  }, 3000);
+}
+
+function saveDataToLocalStorage() {
+  const content = inputText.value;
+  const currentTime = getCurrentDateTime();
+  const dataToSave = {
+    content,
+    timestamp: currentTime,
+  };
+  try{
+  localStorage.setItem('userInputData', JSON.stringify(dataToSave));
+  showSaveMessage();
+  //console.log('Data saved:', content);
+  } catch (err) {
+    console.error('Error saving the data:', err);
+  }
+}
+
+// Listen for changes in the textarea and update the localStorage accordingly
+inputText.addEventListener('input', saveDataToLocalStorage);
+// Set up autosave to run every minute (60000 milliseconds)
+setInterval(saveDataToLocalStorage, 60000);
 
 
+// Define the function that will be executed when you type "localSaveInfo" in the console
+function displaySavedDataInfo() {
+  return `Loaded data: ${localStorageKey}, Content: ${savedData.content}, Saved on: ${savedData.timestamp}.`;
+}
 
+// Add the alias "localSaveInfo" to the console by adding the function to the window object
+window.localSaveInfo = displaySavedDataInfo();
 
 
 

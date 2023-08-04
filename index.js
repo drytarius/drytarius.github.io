@@ -222,7 +222,7 @@ filterField.addEventListener('input', () => {
 });
 
 // Variable to track the visibility of the suggestions container
-let isSuggestionsVisible = true;
+let isSuggestionsVisible = false;
 
 // Function to toggle the visibility of the suggestions container
 function toggleSuggestionsVisibility() {

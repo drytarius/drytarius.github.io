@@ -11,25 +11,11 @@
 <body class="gradient1">
 
 <h1 class="title">CS:GO CONFIG MAKER</h1>
+
+<div class="mainContainer">
 <textarea id="inputText" spellcheck="false" placeholder="Your text goes here..." rows="10" cols="55"></textarea>
-<br/>
-<br/>
-<br/>
-<div class="fixContainer">
-<textarea id="prefixText" spellcheck="false" placeholder="Prefix input..." rows="1"></textarea>
-<textarea id="suffixText" spellcheck="false" placeholder="Suffix input..." rows="1"></textarea>
-</div>
-<br/>
 
-<select id="dropdown">
-    <option value="empty">Select presets (empty)</option>
-    <option value="preset1">ASCII art with alias</option>
-    <option value="preset2">Crouch bug bind</option>
-    <option value="preset3">Use with clear decals bind</option>
-    <option value="preset4">Scroll wheel jump bind</option>
-    <option value="preset5">Left/right hand toggle bind</option>
-</select>
-
+<div class="infoContainer">
 <dl>
 <dt><strong>[%NUM]</strong></dt>
 <dd>Made for making aliases, that will repeat themselves, use this at the end of an alias.</dd>
@@ -38,29 +24,36 @@
 <dd>Made for making aliases, that will repeat themselves, use this one at the beginning of an alias.</dd>
 
 <dt><strong>[%NUMIN]</strong></dt>
-<dd>Number increment, the more you add this the higher the number will go.</dd>
-</dl> 
+<dd>Number increment, the more you add this the higher the number will go.</dd> 
 
 <dt><strong>-command</strong></dt>
 <dd>This is a prefix used for making the list to exclude the commands.</dd>
 <dd><strong class="warningText">WARN!!: (3080 items - might cause lag to not use.)</strong></dd>
-</dl>
 
 <dt><strong>-audio</strong></dt>
 <dd>This is a prefix used for making the list to exclude the audio files.</dd>
 <dd><strong class="warningText">WARN!!: (7101 items - might cause lag to not use.)</strong></dd>
-</dl>
 
 <dt><strong>//</strong></dt>
-<dd>This is a prefix used for "Command Generation" to ignore that specific line.</dd>
-</dl>
+<dd>This is a prefix used for "Generate Clean Command" to <strong>ignore</strong> that specific line.</dd>
+<dd> Can be used to leave the lines as however they are.</dd>
 
-<br/>
+<dt><strong>//!</strong></dt>
+<dd>This is a prefix used for "Generate Clean Command" to <strong>remove</strong> that specific line.</dd>
+<dd> Can be used to add notes.</dd>
+</dl>
 <h4>You can also select "Presets" for pre-made aliases, binds and configs. Made by dt123.</h4>
-<textarea id="commandInput" spellcheck="false" placeholder="Start typing..."></textarea>
-<br/>
-<button onclick="copyCommandOutputValue()">Copy</button>
-<br/>
+<div class="creditsFooter">
+  <footer id="credits"> - made with <a id="forTheFurInYou">❤️</a> by dt123 :3</footer>
+  <footer id="refl"> - made with ❤️ by dt123 :3</footer>
+</div>
+</div>
+</div>
+
+<div class="fixContainer">
+  <textarea id="prefixText" spellcheck="false" placeholder="Prefix input..." rows="1"></textarea>
+  <textarea id="suffixText" spellcheck="false" placeholder="Suffix input..." rows="1"></textarea>
+</div>
 <br/>
 <button onclick="appendGeneratedCommandTextToParagraph()">Generate Clean Command</button>
 <button onclick="generateOutput()">Generate</button>
@@ -69,6 +62,22 @@
 <div class="tooltip"><strong>(?)</strong><span class="tooltiptext">Will activate the listed Regular Expression(s):<br/><br/><li>[%NUM],</li><li>[%NUMALT],</li><li>[%NUMIN].</li><br/></span>
 </div>
 </label>
+<br/>
+<br/>
+<h3>Command Generator:</h3>
+<textarea id="commandInput" spellcheck="false" placeholder="Start typing..."></textarea>
+<br/>
+<br/>
+<button onclick="copyCommandOutputValue()">Copy</button>
+<button id="toggleKeyListenerButton" onclick="toggleKeyListener()">Listen for KeyButton(s)...</button>
+<select id="dropdown">
+  <option value="empty">Select presets (empty)</option>
+  <option value="preset1">ASCII art with alias</option>
+  <option value="preset2">Crouch bug bind</option>
+  <option value="preset3">Use with clear decals bind</option>
+  <option value="preset4">Scroll wheel jump bind</option>
+  <option value="preset5">Left/right hand toggle bind</option>
+</select>
 <br/>
 <br/>
 
@@ -97,13 +106,9 @@
     <div id="resizableHandleOutput" class="resizableHandleOutput"></div>
 </div>
 
-
-
-<footer id="credits"> - made with <a id="forTheFurInYou">❤️</a> by dt123 :3</footer>
-<footer id="refl"> - made with ❤️ by dt123 :3</footer>
-
 <script src='./lists/commandlist.js'></script>
 <script src='./lists/audiolist.js'></script>
+<script src='./lists/keylist.js'></script>
 <script src='index.js'></script>
 </body>
 </html>

@@ -108,7 +108,10 @@ function generateOutput() {
     
     // Add the Prefix and Suffix to the lines
     const modifiedLines = lines.map(line => {
-      if (line.trim().startsWith('//')) {
+      if (/^\s*$/.test(line)) {
+        // For lines consisting only of spaces or line breaks, keep them unchanged
+        return line;
+      } else if (line.trim().startsWith('//')) {
         // For lines starting with //, keep them unchanged
         return line;
       } else {
@@ -219,7 +222,7 @@ filterField.addEventListener('input', () => {
 });
 
 // Variable to track the visibility of the suggestions container
-let isSuggestionsVisible = true;
+let isSuggestionsVisible = false;
 
 // Function to toggle the visibility of the suggestions container
 function toggleSuggestionsVisibility() {
@@ -228,12 +231,12 @@ function toggleSuggestionsVisibility() {
   if (isSuggestionsVisible) {
     suggestionsContainer.style.display = 'none';
     isSuggestionsVisible = false;
-    toggleSuggestionsButton.innerHTML = '(▲)';
+    toggleSuggestionsButton.innerHTML = '(▼)';
     floatingDiv.style.height = '25px';
   } else {
     suggestionsContainer.style.display = 'block';
     isSuggestionsVisible = true;
-    toggleSuggestionsButton.innerHTML = '(▼)';
+    toggleSuggestionsButton.innerHTML = '(▲)';
     floatingDiv.style.height = '854px';
   }
 
@@ -528,7 +531,13 @@ dropdown.addEventListener('change', function() {
       // Preset for ASCII art
       //console.log('Preset: preset1');
 
-      inputText.value = '//alias "asciiscript" "ascii[%NUM]";';
+      inputText.value = `//alias "asciiscript" "ascii[%NUM]";
+//! Put your ASCII art between here:
+
+//!
+
+//! You can replace "." with the key you want to bind the ASCII art to.
+//bind "." "asciiscript";`;
       prefixText.value = 'alias "ascii[%NUMALT]" "say ';
       suffixText.value = '[%NUMIN]; alias asciiscript ascii[%NUM]";';
       break;
@@ -587,7 +596,8 @@ dropdown.addEventListener('change', function() {
 
 function appendGeneratedCommandTextToParagraph(){
     //document.getElementById('generatedCommandOutput').innerHTML = userInput;
-    const cleanOutput = inputText.value.replace(/\/\//g, '');
+    const cropOutput = inputText.value.replace(/\/\/(!.*)?(\n|$)/g, '');
+    const cleanOutput = cropOutput.replace(/\/\//g, '');
     outputTextArea.value = cleanOutput;
     //outputTextArea.value = userInput;
 }
@@ -637,6 +647,114 @@ function copyCommandOutputValue() {
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+let keyListener = false;
+const keyListenerButton = document.getElementById('toggleKeyListenerButton');
+
+        // Event listener function
+function handleKeyPress(event) {
+  const preventKeys = [
+    'F1',
+    'F5',
+    'F11',
+    'F12',
+    'r', // Ctrl + R (Windows) or Command + R (Mac)
+    'i', // Ctrl + Shift + I (Windows) or Command + Option + I (Mac)
+    'j', // Ctrl + Shift + J (Windows) or Command + Option + J (Mac)
+    'c', // Ctrl + Shift + C (Windows) or Command + Option + C (Mac)
+];
+
+if (keyListener && (preventKeys.includes(event.key) || (event.ctrlKey && ['r', 'i', 'j', 'c'].includes(event.key.toLowerCase())))) {
+    event.preventDefault(); // Prevent the default behavior
+}
+
+if (keyListener) {
+    const pressedKey = event.code;
+    const keyName = keyNames[pressedKey];
+
+if (keyName) {
+    console.log(keyName);
+    inputField.value = inputField.value + keyName + ' ';
+    keyListener = false;
+    keyListenerButton.innerHTML = "Listen for KeyButton(s)...";
+    keyListenerButton.style.backgroundColor = "rgba(50, 205, 50, .5)";
+   }
+}
+}
+
+// Toggle keyListener
+function toggleKeyListener(){
+  keyListener = !keyListener;
+  //console.log('keyListener is now:', keyListener);
+  if(keyListener){
+    keyListenerButton.innerHTML = "Listening...";
+    keyListenerButton.style.backgroundColor = "rgba(255, 195, 0, .5)";
+  } else {
+    keyListenerButton.innerHTML = "Listen for KeyButton(s)...";
+    keyListenerButton.style.backgroundColor = "rgba(50, 205, 50, .5)";
+  }
+}
+
+// Add event listener to the window for keydown event
+window.addEventListener("keydown", handleKeyPress);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 // FUN STUFF
 // Toggle Themes
 
@@ -650,7 +768,7 @@ toggleThemes.addEventListener('click', function () {
     const rootElement = document.documentElement;
 
     if (isChanged) {
-    console.log('off')
+    //console.log('off')
     body.classList.remove('gradient2');
     body.classList.add('gradient1');
 
@@ -661,7 +779,7 @@ toggleThemes.addEventListener('click', function () {
 
     isChanged = false;
   } else {
-    console.log('on')
+    //console.log('on')
     body.classList.remove('gradient1');
     body.classList.add('gradient2');
 

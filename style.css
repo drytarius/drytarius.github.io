@@ -62,9 +62,7 @@ button:active{
   background-color: var(--e6_cream);
 }
 
-li {
-  color: #fff;
-}
+
 
 select{
   color: black;
@@ -73,6 +71,7 @@ select{
 option {
   color: black;
 }
+
 
 
 
@@ -95,7 +94,7 @@ option {
   z-index: 9999; /* Ensure it's above other elements */
   resize: both; /* Enable resizing */
   overflow: hidden; /* Hide overflowing content during resizing */
-  height: 854px;
+  height: 25px;
   width: 553px;
   user-select: none;
   box-shadow:
@@ -109,7 +108,7 @@ option {
   background-color: rgba(0, 0, 0, 0.042); /* Background color with opacity */
   backdrop-filter: blur(10px); /* Blur effect for the content behind the element */
   display: block;
-}  
+}
 
 .resize-handle {
   position: absolute;
@@ -146,7 +145,7 @@ option {
   background-color: var(--default_emphasize_color);
   background-color: rgba(0, 0, 0, 0.042); /* Background color with opacity */
   backdrop-filter: blur(10px); /* Blur effect for the content behind the element */
-  width: 200px;
+  width: 225px;
   height: 100%;
   overflow: hidden;
   border: 1px black solid;
@@ -219,7 +218,13 @@ option {
 
 
 
+.mainContainer{
+  display: flex;
+}
 
+.infoContainer{
+  margin-left: 50px;
+}
 
 .fixContainer{
   font-size: 16px;
@@ -248,7 +253,7 @@ option {
 
 #inputText{
   width: 600px;
-  height: 200px;
+  height: 330px;
   color: black;
 }  
 
@@ -295,6 +300,7 @@ option {
   max-height: 90%; /* Adjust the height according to your needs */
   overflow-y: auto;
   overflow-x: hidden;
+  display: none;
 }
 
 #refl {
@@ -310,6 +316,10 @@ option {
   -webkit-mask-image: -webkit-gradient(linear, right top, right bottom, from(transparent), color-stop(20%, transparent), to(rgba(0, 0, 0, 0.4)));
   mask-image: none;
   user-select: none;
+}
+
+#toggleKeyListenerButton{
+  background-color: rgba(50, 205, 50, .5);
 }
 
 #credits{

@@ -824,7 +824,11 @@ if (savedData) {
   inputText.value = savedData.content;
 
   // Log the loaded data and the date and time it was saved to localStorage
+  try {
   console.log(`Loaded data ${localStorageKey}: \n\nSaved Data Content:\n${savedData.content}\n\nSaved on ${savedData.timestamp}.\n\nTo see the content of the data, type "localSaveInfo" in the console.`);
+  } catch (err) { 
+  console.error('Error displaying the data:', err);
+  }
 }
 
 // Function to show the success message and fade it out after a delay

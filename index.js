@@ -851,6 +851,8 @@ function showSaveMessage() {
   }, 3000);
 }
 
+let consoleAliasMessage = '';
+
 function saveDataToLocalStorage() {
   const content = inputText.value;
   const currentTime = getCurrentDateTime();
@@ -860,6 +862,7 @@ function saveDataToLocalStorage() {
   };
   try{
   localStorage.setItem('userInputData', JSON.stringify(dataToSave));
+  consoleAliasMessage = `Loaded data: ${localStorageKey}, Content: ${savedData.content}, Saved on: ${savedData.timestamp}.`;
   showSaveMessage();
   //console.log('Data saved:', content);
   } catch (err) {
@@ -875,7 +878,7 @@ setInterval(saveDataToLocalStorage, 60000);
 
 // Define the function that will be executed when you type "localSaveInfo" in the console
 function displaySavedDataInfo() {
-  return `Loaded data: ${localStorageKey}, Content: ${savedData.content}, Saved on: ${savedData.timestamp}.`;
+  return consoleAliasMessage;
 }
 
 // Add the alias "localSaveInfo" to the console by adding the function to the window object

@@ -817,15 +817,20 @@ function getCurrentDateTime() {
 
 // Define a variable to store the key used to save the data in localStorage
 const localStorageKey = 'userInputData';
+const fileNameInput = document.getElementById('fileName');
+
+let consoleAliasMessage = '';
 
 // Get the saved data from localStorage and set it to the inputField
 const savedData = JSON.parse(localStorage.getItem(localStorageKey));
 if (savedData) {
   inputText.value = savedData.content;
+  fileNameInput.value = savedData.contentName;
 
   // Log the loaded data and the date and time it was saved to localStorage
   try {
-  console.log(`Loaded data ${localStorageKey}: \n\nSaved Data Content:\n${savedData.content}\n\nSaved on ${savedData.timestamp}.\n\nTo see the content of the data, type "localSaveInfo" in the console.`);
+  console.log(`Loaded data ${localStorageKey}: \n\nSaved Data Content Name:\n${savedData.contentName}\n\nSaved Data Content:\n${savedData.content}\n\nSaved on ${savedData.timestamp}.\n\nTo see the content of the data, type "localSaveInfo" in the console.`);
+  consoleAliasMessage = `Loaded data: ${localStorageKey}, Content Name: ${savedData.contentName}, Content: ${savedData.content}, Saved on: ${savedData.timestamp}.`;
   } catch (err) { 
   console.error('Error displaying the data:', err);
   }
@@ -851,18 +856,20 @@ function showSaveMessage() {
   }, 3000);
 }
 
-let consoleAliasMessage = '';
+
 
 function saveDataToLocalStorage() {
   const content = inputText.value;
+  const contentName = fileNameInput.value;
   const currentTime = getCurrentDateTime();
   const dataToSave = {
     content,
+    contentName,
     timestamp: currentTime,
   };
   try{
   localStorage.setItem('userInputData', JSON.stringify(dataToSave));
-  consoleAliasMessage = `Loaded data: ${localStorageKey}, Content: ${savedData.content}, Saved on: ${savedData.timestamp}.`;
+  consoleAliasMessage = `Loaded data: ${localStorageKey}, Content Name: ${savedData.contentName}, Content: ${savedData.content}, Saved on: ${savedData.timestamp}.`;
   showSaveMessage();
   //console.log('Data saved:', content);
   } catch (err) {
@@ -872,6 +879,7 @@ function saveDataToLocalStorage() {
 
 // Listen for changes in the textarea and update the localStorage accordingly
 inputText.addEventListener('input', saveDataToLocalStorage);
+fileNameInput.addEventListener('input', saveDataToLocalStorage);
 // Set up autosave to run every minute (60000 milliseconds)
 setInterval(saveDataToLocalStorage, 60000);
 
@@ -896,6 +904,302 @@ window.localSaveInfo = displaySavedDataInfo();
 
 
 
+
+
+
+
+
+
+
+
+
+
+
+// Load user's file(s)
+
+// Get references to the file input and textarea elements
+const fileInput = document.getElementById('fileInput');
+// Event listener for when a file is selected
+fileInput.addEventListener('change', handleFileSelect);
+
+// Function to handle the selected file
+function handleFileSelect(event) {
+  const selectedFile = event.target.files[0];
+
+  // Check if a file is selected
+  if (!selectedFile) return;
+  console.log(selectedFile.name)
+
+  // Read the contents of the file
+  const fileReader = new FileReader();
+  fileReader.onload = function (event) {
+    const fileContent = event.target.result;
+
+    // Set the file content to the textarea
+    inputText.value = fileContent;
+  };
+
+  // Read the file as text
+  fileReader.readAsText(selectedFile);
+}
+
+
+
+// Save the output as
+
+const saveButton = document.getElementById('saveButton');
+
+// Event listener for the save button
+saveButton.addEventListener('click', saveAsCFGFile);
+
+// Function to save the content of the textarea as a .txt file
+function saveAsCFGFile() {
+  let randomNumber = Math.floor(Math.random() * 1000000) + 1;
+  const prohibitedChars = /[:<>"/\\|?*]/; // Regular expression for prohibited characters
+  const textContent = outputTextArea.value;
+  const blob = new Blob([textContent], { type: 'text/plain' });
+  let fileName;
+  if (fileNameInput.value.length > 0 && !prohibitedChars.test(fileNameInput.value)) {
+    fileName = fileNameInput.value + '.cfg';
+  } else {
+    fileName = 'config_' + randomNumber + '.cfg';
+  }
+
+  // Create a temporary anchor element to trigger the download
+  const downloadLink = document.createElement('a');
+  downloadLink.href = URL.createObjectURL(blob);
+  downloadLink.download = fileName;
+  downloadLink.style.display = 'none';
+
+  // Append the anchor to the body and trigger the download
+  document.body.appendChild(downloadLink);
+  downloadLink.click();
+
+  // Clean up the temporary anchor
+  document.body.removeChild(downloadLink);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// Image to ascii
+const imageInput = document.getElementById('image-input');
+const aspectSizeSlider = document.getElementById('aspect-size-slider');
+const aspectRatioLabel = document.getElementById('aspect-ratio');
+const asciiArtContainer = document.getElementById('ascii-art-container');
+
+imageInput.addEventListener('change', handleImageSelect);
+aspectSizeSlider.addEventListener('input', handleAspectSizeChange);
+
+function handleImageSelect() {
+  const file = imageInput.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function () {
+    const image = new Image();
+    image.onload = function () {
+      handleImageLoad(image);
+    };
+    image.onerror = function () {
+      // Handle image loading errors
+      alert('Error: Unable to load the image.');
+    };
+    image.src = reader.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+function handleImageLoad(image) {
+  const aspectSize = aspectSizeSlider.value;
+  aspectRatioLabel.textContent = `Aspect Ratio: 1:${aspectSize}`;
+  convertToAscii(image, aspectSize);
+}
+
+function handleAspectSizeChange() {
+  const imageSrc = asciiArtContainer.getAttribute('data-image-src');
+
+  const aspectSize = aspectSizeSlider.value;
+  aspectRatioLabel.textContent = `Aspect Ratio: 1:${aspectSize}`;
+  if (!imageSrc) return; // If no image is loaded, return early
+  
+  const image = new Image();
+  image.onload = function() {
+    convertToAscii(image, aspectSize);
+  };
+  image.onerror = function () {
+    // Handle image loading errors
+    console.error('Error: Unable to load the image.');
+  };
+  image.src = imageSrc;
+}
+
+function setAspectSizeBefore(){
+  const aspectSize = aspectSizeSlider.value;
+  aspectRatioLabel.textContent = `Aspect Ratio: 1:${aspectSize}`;
+}
+
+setAspectSizeBefore();
+
+function convertToAscii(image, aspectSize) {
+  const canvas = document.createElement('canvas');
+
+  const ctx = canvas.getContext('2d');
+
+  const aspectRatio = image.width / image.height;
+  const newWidth = 100 * aspectSize;
+  canvas.width = newWidth;
+  canvas.height = newWidth / aspectRatio;
+
+  if (image.height === 0 || image.width === 0 || canvas.width === 0 || canvas.height === 0) {
+    // Handle cases where the image height or width is 0 (image not loaded or invalid)
+    console.log('Invalid image or canvas dimensions: ', '\n\n', 'Image:', 'x:', image.width, 'y:', image.height, '\n', 'Canvas:', 'x:', canvas.width, 'y:', canvas.height);
+    console.log();
+    return;
+  }
+
+  ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
+
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+  const data = imageData.data;
+
+  let asciiArt = '';
+  for (let y = 0; y < canvas.height; y += 2) {
+    for (let x = 0; x < canvas.width; x++) {
+      const dataIndex = (y * canvas.width + x) * 4;
+      const r = data[dataIndex];
+      const g = data[dataIndex + 1];
+      const b = data[dataIndex + 2];
+      const brightness = (r + g + b) / 3;
+      const char = getCharFromBrightness(brightness);
+      asciiArt += char;
+    }
+    asciiArt += '\n';
+  }
+
+  asciiArtContainer.textContent = asciiArt;
+  asciiArtContainer.setAttribute('data-image-src', image.src);
+
+  if (asciiArtContainer.textContent.length < 0) {
+    asciiArtContainer.style.border = 'none';
+  } else {
+    asciiArtContainer.style.border = '1px solid black';
+  }
+}
+
+function getCharFromBrightness(brightness) {
+  const asciiChars = ' .,:;iIrRH#';
+  const scale = 255 / (asciiChars.length - 1);
+  const index = Math.floor(brightness / scale);
+  return asciiChars.charAt(index);
+};
+
+
+
+
+
+
+
+// Copy the ASCII art
+function copyASCIIOutputValue() {
+  const copyTextAlert = document.getElementById('copyChecker');
+  
+  // Create a temporary textarea element
+  const tempTextArea = document.createElement('textarea');
+  
+  // Set the value of the textarea to the text content of the div (asciiArtContainer)
+  tempTextArea.value = asciiArtContainer.textContent;
+  
+  // Append the textarea to the document (it doesn't have to be visible)
+  document.body.appendChild(tempTextArea);
+  
+  // Select the text inside the textarea
+  tempTextArea.select();
+  
+  // Use the Clipboard API to copy the selected text to the clipboard
+  navigator.clipboard.writeText(tempTextArea.value)
+    .then(() => {
+      console.log('Text copied to clipboard successfully.');
+      copyTextAlert.innerHTML = ("Text copied to clipboard successfully! Character size: " + tempTextArea.value.length + ".");
+      copyTextAlert.style.color = "darkgreen";
+    })
+    .catch((err) => {
+      console.error('Error copying text to clipboard: ', err);
+      copyTextAlert.innerHTML = ('Error copying text to clipboard: ' + err);
+      copyTextAlert.style.color = "darkred";
+    })
+    .finally(() => {
+      // Remove the temporary textarea from the document
+      document.body.removeChild(tempTextArea);
+    });
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const infoBox = document.getElementById('infoContent');
+const infoWrap = document.getElementById('infoContainer');
+const infoToggleButton = document.getElementById('hideInfo');
+let isInfoBoxVisible = true;
+
+
+// Toggle infoBox visibilitylet isSuggestionsVisible = false;
+function toggleInfoBoxVisibility() {
+  infoWrap.classList.add('height-transition');
+
+  if (isInfoBoxVisible) {
+    infoBox.style.display = 'none';
+    isInfoBoxVisible = false;
+    infoToggleButton.innerHTML = '(▼)';
+    infoWrap.style.height = '25px';
+  } else {
+    infoBox.style.display = 'block';
+    isInfoBoxVisible = true;
+    infoToggleButton.innerHTML = '(▲)';
+    infoWrap.style.height = '562px';
+  }
+
+  // Listen for the transitionend event and remove the heightTransition class after the transition is complete
+  infoWrap.addEventListener('transitionend', () => {
+    infoWrap.classList.remove('height-transition');
+  });
+}
 
 
 

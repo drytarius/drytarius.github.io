@@ -15,6 +15,12 @@
 <div class="mainContainer">
 <textarea id="inputText" spellcheck="false" placeholder="Your text goes here..." rows="10" cols="55"></textarea>
 <p class="hidden" id="saveStatus">...</p>
+<input type="file" id="fileInput">
+<label for="fileName">Config Name:
+<input id="fileName" spellcheck="false" placeholder="Config name...">
+</label>
+<br/>
+<br/>
 <div class="fixContainer">
   <textarea id="prefixText" spellcheck="false" placeholder="Prefix input..." rows="1"></textarea>
   <textarea id="suffixText" spellcheck="false" placeholder="Suffix input..." rows="1"></textarea>
@@ -64,11 +70,19 @@
   </div>
 <br/>
 <div id="spellCheckResult">Spell Check: Waiting for input...</div>
-
 <br/>
 <br/>
-<div class="infoContainer">
-  <h3>Information Box:</h3>
+<br/>
+<br/>
+<br/>
+<br/>
+<div class="infoContainer" id="infoContainer">
+  <div class="infoContainerHeader">Information Box:
+    <a id="hideInfo" onclick="toggleInfoBoxVisibility()">(▲)</a>
+  </div>
+  <br/>
+  <br/>
+  <div id="infoContent" >
   <dl>
   <dt><strong>[%NUM]</strong></dt>
   <dd>Made for making aliases, that will repeat themselves, use this at the end of an alias.</dd>
@@ -102,9 +116,24 @@
   <dd> Can be used to add notes.</dd>
   </dl>
   <h4>You can also select "Presets" for pre-made aliases, binds and configs. Made by dt123.</h4>
+
+  <br/>
+  <br/>
+  <h1>Image to ASCII Art Converter</h1>
+  <input type="file" id="image-input">
+  <input type="range" id="aspect-size-slider" min="1" max="20" value="10">
+  <label for="aspect-size-slider">Aspect Size</label>
+  <span id="aspect-ratio"></span>
+  <button onclick="copyASCIIOutputValue()">Copy</button>
+  <br/>
+  <br/>
+  <div id="ascii-art-container"></div>
+</div>
 </div>
 
 <div class="creditsFooter">
+  <br/>
+  <br/>
   <footer id="credits"> - made with <a id="forTheFurInYou">❤️</a> by dt123 :3</footer>
   <footer id="refl"> - made with ❤️ by dt123 :3</footer>
 </div>
@@ -119,6 +148,7 @@
 <div class="resizableDiv" id="resizableDiv">
     <textarea id="outputText" spellcheck="false" placeholder="Output text..."></textarea>
     <button class="copyButton" onclick="copyTextOutputValue()">Copy</button>
+    <button id="saveButton">Save as</button>
     <p id="copyChecker">Click "Copy" to copy...</p>
     <div id="resizableHandleOutput" class="resizableHandleOutput"></div>
 </div>

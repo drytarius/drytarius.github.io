@@ -392,6 +392,10 @@ option {
   height: 50px;
 }
 
+.warningText-verylight{
+  background-color: rgba(0, 128, 0, 0.5)
+}
+
 .warningText-light{
   background-color: rgba(255, 255, 0, 0.5)
 }
@@ -400,8 +404,24 @@ option {
   background-color: rgba(255, 165, 0, 0.5);
 }
 
+.warningText-high{
+  background-color: rgba(255, 83, 73, 0.5)
+}
+
 .warningText-extreme{
   background-color: rgba(255, 0, 0, 0.5);
+}
+
+.activeStatus{
+  color: green;
+}
+
+.deactiveStatus{
+  color: red;
+}
+
+.colorSpan{
+  user-select: text;
 }
 
 

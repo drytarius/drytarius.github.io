@@ -3076,7 +3076,4 @@ const autofillOptionsCommands = [
     "xbox_throttlespoof",
     "zoom_sensitivity_ratio_joystick",
     "zoom_sensitivity_ratio_mouse",
-    "[%NUM]",
-    "[%NUMALT]",
-    "[%NUMIN]",
-  ];
+  ]

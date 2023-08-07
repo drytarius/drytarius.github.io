@@ -93,19 +93,47 @@
   <dt><strong>[%NUMIN]</strong></dt>
   <dd>Number increment, the more you add this the higher the number will go.</dd> 
   
-  <dt><strong>-command</strong></dt>
+  <dt><strong>-commands</strong></dt>
   <dd>This is a prefix used for making the list to exclude the commands.</dd>
-  <dd><strong class="warningText-mid">WARN!!: (3080 items - might cause lag to not use.)</strong></dd>
+  <dd><strong>default status: </strong><i class="deactiveStatus">off</i></dd>
+  <dd><strong>Indicator Suffix && Color: </strong><i>none </i><span class="colorSpan" style="background-color: #b4c7d9;">#b4c7d9</span></dd>
+  <dd><strong class="warningText-light">WARN!!: (3080 items - might cause lag to not use.)</strong></dd>
   
+  <dt><strong>-custom</strong></dt>
+  <dd>This is a prefix used for making the list to exclude the custom stuff.</dd>
+  <dd><strong>Default Status: </strong><i class="deactiveStatus">off</i></dd>
+  <dd><strong>Indicator Suffix && Color: </strong><i>(custom) </i><span class="colorSpan" style="background-color: #d99c29;">#d99c29</span></dd>
+  <dd><strong class="warningText-verylight">WARN!!: (3 items - might cause lag to not use, but it's highly unlikely.)</strong></dd>
+
   <dt><strong>-audio</strong></dt>
   <dd>This is a prefix used for making the list to exclude the audio files.</dd>
-  <dd><strong class="warningText-mid">WARN!!: (7101 items - might cause lag to not use.)</strong></dd>
+  <dd><strong>Default Status: </strong><i class="activeStatus">on</i></dd>
+  <dd><strong>Indicator Suffix && Color: </strong><i>(audio) </i><span class="colorSpan" style="background-color: #ffe666;">#ffe666</span></dd>
+  <dd><strong class="warningText-mid">WARN!!: (7101 items - might cause lag to not use and can increase the processor usage.)</strong></dd>
   
+  <dt><strong>-props</strong></dt>
+  <dd>This is a prefix used for making the list to exclude the props.</dd>
+  <dd><strong>Default Status: </strong><i class="activeStatus">on</i></dd>
+  <dd><strong>Indicator Suffix && Color: </strong><i>(prop) </i><span class="colorSpan" style="background-color: #dc5e5e;">#dc5e5e</span></dd>
+  <dd><strong class="warningText-mid">WARN!!: (4040 items - might cause lag to not use and can increase the processor usage.)</strong></dd>
+
+  <dt><strong>-entities</strong></dt>
+  <dd>This is a prefix used for making the list to exclude the entities.</dd>
+  <dd><strong>Default Status: </strong><i class="activeStatus">on</i></dd>
+  <dd><strong>Indicator Suffix && Color: </strong><i>(entity) </i><span class="colorSpan" style="background-color: #28649c;">#28649c</span></dd>
+  <dd><strong class="warningText-verylight">WARN!!: (604 items - might cause lag to not use, but it's highly unlikely.)</strong></dd>
+
+  <dt><strong>-weapons</strong></dt>
+  <dd>This is a prefix used for making the list to exclude the weapons.</dd>
+  <dd><strong>default status: </strong><i class="deactiveStatus">off</i></dd>
+  <dd><strong>Indicator Suffix && Color: </strong><i>(weapon) </i><span class="colorSpan" style="background-color: #50555e;">#50555e</span></dd>
+  <dd><strong class="warningText-verylight">WARN!!: (57 items - might cause lag to not use, but it's highly unlikely.)</strong></dd>
+
   <dt><strong>show:number && show:all</strong></dt>
   <dd>This is a filter option to make the list have the stated amount of items listed per page.</dd>
-  <dd><strong>show:100</strong> <i>will list 100 items per page, you can change the number as much as you like. (default, 150)</i></dd>
+  <dd><strong>show:100</strong> <i>will list 100 items per page, you can change the number as much as you like. <strong>(default, 150)</strong></i></dd>
   <dd><strong>show:all</strong> <i>will list all the items.</i></dd>
-  <dd><strong class="warningText-extreme">WARN!!: (3080 to 10181 items - might cause lag and crashing to not use.)</strong></dd>
+  <dd><strong class="warningText-extreme">WARN!!: (57 to 14882 items - WILL CAUSE LAG, INCREASE THE PROCESSOR USAGE AND MIGHT CRASH THE BROWSER.)</strong></dd>
   
   <dt><strong>//</strong></dt>
   <dd>This is a prefix used for "Generate Clean Command" to <strong>ignore</strong> that specific line.</dd>
@@ -153,8 +181,12 @@
     <div id="resizableHandleOutput" class="resizableHandleOutput"></div>
 </div>
 
+<script src='./lists/customlist.js'></script>
 <script src='./lists/commandlist.js'></script>
 <script src='./lists/audiolist.js'></script>
+<script src='./lists/proplist.js'></script>
+<script src='./lists/entitylist.js'></script>
+<script src='./lists/weaponlist.js'></script>
 <script src='./lists/keylist.js'></script>
 <script src='index.js'></script>
 </body>

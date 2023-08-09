@@ -157,7 +157,7 @@
   <br/>
 
   <label for="aspect-size-multiplier">Aspect Size Multiplier
-  <input id="aspect-size-multiplier" placeholder="Multiplier number" value="10">
+  <input id="aspect-size-multiplier" placeholder="Multiplier number" value="10" type="number">
   </label>
 
   <br/>
@@ -167,15 +167,32 @@
   <br/>
   <br/>
   <label for="invertedCheckbox">Inverted:
-  <input type="checkbox" id="invertedCheckbox" checked="false">
+  <input type="checkbox" id="invertedCheckbox">
   </label>
   <br/>
   <label for="ditheringCheckbox">Dithering:
-  <input type="checkbox" id="ditheringCheckbox" checked="false">
+  <input type="checkbox" id="ditheringCheckbox">
   </label>
   <br/>
   <label for="monospaceCheckbox">Monospace:
-  <input type="checkbox" id="monospaceCheckbox" checked="false">
+  <input type="checkbox" id="monospaceCheckbox">
+  </label>
+  <br/>
+  <br/>
+  <label for="dropdownGreyscale">Greyscale Mode:
+  <select id="dropdownGreyscale">
+    <option value="luminance">Luminance</option>
+    <option value="lightness">Lightness</option>
+    <option value="average">Average</option>
+    <option value="value">Value</option>
+  </select>
+  </label>
+  <br/>
+  <label for="dropdownASCIIBackground">Background Theme:
+    <select id="dropdownASCIIBackground">
+      <option value="light">Light</option>
+      <option value="dark">Dark</option>
+    </select>
   </label>
   </div>
   <br/>

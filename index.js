@@ -1161,12 +1161,12 @@ const ditheringCheckbox = document.getElementById('ditheringCheckbox');
 const monospaceCheckbox = document.getElementById('monospaceCheckbox');
 
 imageInput.addEventListener('change', handleImageSelect);
-aspectSizeSlider.addEventListener('input', handleAspectSizeChange);
-aspectSizeMultiplierInput.addEventListener('input', handleAspectSizeChange);
+aspectSizeSlider.addEventListener('input', handleConfigurationChange);
+aspectSizeMultiplierInput.addEventListener('input', handleConfigurationChange);
 
-invertedCheckbox.addEventListener('change', handleAspectSizeChange);
-ditheringCheckbox.addEventListener('change', handleAspectSizeChange);
-monospaceCheckbox.addEventListener('change', handleAspectSizeChange);
+invertedCheckbox.addEventListener('change', handleConfigurationChange);
+ditheringCheckbox.addEventListener('change', handleConfigurationChange);
+monospaceCheckbox.addEventListener('change', handleConfigurationChange);
 
 const settings = {
 	last_canvas: null,
@@ -1179,6 +1179,64 @@ const settings = {
 	dithering: false,
 	monospace: false,
 }
+
+dropdownGreyscale.addEventListener('change', function(){
+
+  const dropdownGreyscale = document.getElementById('dropdownGreyscale');
+  const selectedGreyscale = dropdownGreyscale.value;
+
+  switch (selectedGreyscale) {
+    case 'luminance':
+			settings.greyscale_mode = 'luminance';
+
+      handleConfigurationChange();
+      //console.log(settings.greyscale_mode);
+      break;
+		case 'lightness':
+			settings.greyscale_mode = 'lightness';
+
+      handleConfigurationChange();
+      //console.log(settings.greyscale_mode);
+      break;
+		case 'average':
+			settings.greyscale_mode = 'average';
+
+      handleConfigurationChange();
+      //console.log(settings.greyscale_mode);
+      break;
+		case 'value':
+			settings.greyscale_mode = 'value';
+
+      handleConfigurationChange();
+      //console.log(settings.greyscale_mode); 
+      break;
+		default:
+      //console.log(settings.greyscale_mode);
+      break;
+	}
+})
+
+dropdownASCIIBackground.addEventListener('change', function(){
+
+  const dropdownASCIIBackground = document.getElementById('dropdownASCIIBackground');
+  const selectedASCIITheme = dropdownASCIIBackground.value;
+
+  switch (selectedASCIITheme) {
+    case 'light':
+			asciiArtContainer.style.backgroundColor = 'white';
+      asciiArtContainer.style.color = 'black';
+
+      break;
+		case 'dark':
+			asciiArtContainer.style.backgroundColor = 'black';
+      asciiArtContainer.style.color = 'white';
+
+      break;
+		default:
+
+      break;
+	}
+})
 
 function handleImageSelect() {
     const file = imageInput.files[0];
@@ -1230,7 +1288,16 @@ function settingsCheckboxChecker(aspectSize, aspectSizeMultiplier){
   settings.width = aspectSize * aspectSizeMultiplier;
 }
 
-function handleAspectSizeChange() {
+function handleAspectSizeChangeBefore(){
+  const aspectSize = aspectSizeSlider.value;
+  const aspectSizeMultiplier = aspectSizeMultiplierInput.value;
+  settings.width = aspectSize * aspectSizeMultiplier;
+  aspectRatioLabel.textContent = `Aspect Ratio: 1:${aspectSize}`;
+}
+
+handleAspectSizeChangeBefore();
+
+function handleConfigurationChange() {
     const imageSrc = asciiArtContainer.getAttribute('data-image-src');
 
     const aspectSize = aspectSizeSlider.value;
@@ -1299,8 +1366,7 @@ function handleAspectSizeChange() {
 			return Math.max(r,g,b);
 
 		default:
-			console.error("Greyscale mode is not valid");
-			return 0;
+			
 	}
 }
 

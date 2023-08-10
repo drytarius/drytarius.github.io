@@ -238,6 +238,7 @@ let isSuggestionsVisible = false;
 // Function to toggle the visibility of the suggestions container
 function toggleSuggestionsVisibility() {
   floatingDiv.classList.add('height-transition');
+  
 
   if (isSuggestionsVisible) {
     navigationButtons.style.display = 'none';
@@ -245,12 +246,14 @@ function toggleSuggestionsVisibility() {
     isSuggestionsVisible = false;
     toggleSuggestionsButton.innerHTML = '(▼)';
     floatingDiv.style.height = '25px';
+    floatingDiv.style.opacity = '.5';
   } else {
     navigationButtons.style.display = 'block';
     suggestionsContainer.style.display = 'block';
     isSuggestionsVisible = true;
     toggleSuggestionsButton.innerHTML = '(▲)';
     floatingDiv.style.height = '854px';
+    floatingDiv.style.opacity = '1';
   }
 
   // Listen for the transitionend event and remove the heightTransition class after the transition is complete
@@ -1154,6 +1157,7 @@ const imageInput = document.getElementById('image-input');
 const aspectSizeSlider = document.getElementById('aspect-size-slider');
 const aspectRatioLabel = document.getElementById('aspect-ratio');
 const aspectSizeMultiplierInput = document.getElementById('aspect-size-multiplier');
+const asciiFontSizeInput = document.getElementById('asciiFontSize');
 const asciiArtContainer = document.getElementById('ascii-art-container');
 
 const invertedCheckbox = document.getElementById('invertedCheckbox');
@@ -1167,6 +1171,17 @@ aspectSizeMultiplierInput.addEventListener('input', handleConfigurationChange);
 invertedCheckbox.addEventListener('change', handleConfigurationChange);
 ditheringCheckbox.addEventListener('change', handleConfigurationChange);
 monospaceCheckbox.addEventListener('change', handleConfigurationChange);
+
+asciiFontSizeInput.addEventListener('change', changeASCIIFontSize);
+
+function changeASCIIFontSize(){
+  asciiArtContainer.style.fontSize = asciiFontSizeInput.value + 'px';
+
+  //console.log(asciiFontSizeInput.value);
+}
+
+changeASCIIFontSize();
+
 
 const settings = {
 	last_canvas: null,
@@ -1240,6 +1255,7 @@ dropdownASCIIBackground.addEventListener('change', function(){
 
 function handleImageSelect() {
     const file = imageInput.files[0];
+    const displayUploadStatus = document.getElementById('uploadStatus');
     if (!file) return;
   
     const reader = new FileReader();
@@ -1247,10 +1263,17 @@ function handleImageSelect() {
       const image = new Image();
       image.onload = function () {
         handleImageLoad(image);
+
+        // Handle image loading errors
+        displayUploadStatus.innerHTML = 'File loaded successfully.';
+        // Turn the color into darkgreen
+        displayUploadStatus.style.color = "darkgreen";
       };
       image.onerror = function () {
         // Handle image loading errors
-        alert('Error: Unable to load the image.');
+        displayUploadStatus.innerHTML = 'Error loading the file. Supported file types: .jpg, .jpeg, .png, .gif, .bmp, .webp, .svg.';
+        // Turn the color into darkred
+        displayUploadStatus.style.color = "darkred";
       };
       image.src = reader.result;
     };
@@ -1554,7 +1577,15 @@ function copyASCIIOutputValue() {
 const infoBox = document.getElementById('infoContent');
 const infoWrap = document.getElementById('infoContainer');
 const infoToggleButton = document.getElementById('hideInfo');
+
+
+
+const mainBox = document.getElementById('mainContent');
+const mainWrap = document.getElementById('mainContainer');
+const mainToggleButton = document.getElementById('hideMain');
+
 let isInfoBoxVisible = true;
+let isMainBoxVisible = true;
 
 
 // Toggle infoBox visibilitylet isSuggestionsVisible = false;
@@ -1566,11 +1597,13 @@ function toggleInfoBoxVisibility() {
     isInfoBoxVisible = false;
     infoToggleButton.innerHTML = '(▼)';
     infoWrap.style.height = '25px';
+    infoWrap.style.opacity = '.5';
   } else {
     infoBox.style.display = 'block';
     isInfoBoxVisible = true;
     infoToggleButton.innerHTML = '(▲)';
     infoWrap.style.height = '562px';
+    infoWrap.style.opacity = '1';
   }
 
   // Listen for the transitionend event and remove the heightTransition class after the transition is complete
@@ -1581,7 +1614,82 @@ function toggleInfoBoxVisibility() {
 
 
 
+function toggleMainBoxVisibility() {
+  mainWrap.classList.add('height-transition');
 
+  if (isMainBoxVisible) {
+    mainBox.style.display = 'none';
+    isMainBoxVisible = false;
+    mainToggleButton.innerHTML = '(▼)';
+    mainWrap.style.height = '25px';
+    mainWrap.style.opacity = '.5';
+  } else {
+    mainBox.style.display = 'block';
+    isMainBoxVisible = true;
+    mainToggleButton.innerHTML = '(▲)';
+    mainWrap.style.height = '970px';
+    mainWrap.style.opacity = '1';
+  }
+
+  // Listen for the transitionend event and remove the heightTransition class after the transition is complete
+  mainWrap.addEventListener('transitionend', () => {
+    mainWrap.classList.remove('height-transition');
+  });
+}
+
+
+
+const header = document.getElementById('header');
+const scrollThreshold = 100; // Adjust the threshold as needed
+
+window.addEventListener('scroll', () => {
+  const scrollY = window.scrollY;
+
+  if (scrollY > scrollThreshold) {
+    const opacity = 1 - (scrollY - scrollThreshold) / 100;
+    header.style.opacity = opacity < 0 ? 0 : opacity; // Opacity should not go below 0
+  } else {
+    header.style.opacity = 1;
+  }
+});
+
+
+
+
+
+
+
+
+
+
+// Check the width of the screen
+const screenWidth = window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+const mobileScreenWidthThreshold = 768; // Adjust this value based on your design's breakpoint
+
+if (screenWidth < mobileScreenWidthThreshold) {
+  console.log('Website loaded on a mobile device.');
+  console.log('No actions are taken.');
+  console.log("Hey, hey! i'm a wazy devewopew, awnd my website isn't wesponsive!");
+} else {
+  console.log('Website not loaded on a mobile device.');
+  console.log('No actions are taken.');
+}
+
+//For the sake of it, I'm not going to use this function.
+//But if I see a single person complaining that the website isn't responsive
+//because they can't f*cking load the website on their Steam Deck or something,
+//I will go crazy... please I don't want to spend another week making this thing responsive.
+
+//function excuseMaker(){
+//  let randomNumber = Math.floor(Math.random() * 1000) + 1;
+//  if(randomNumber === 621){
+//    console.log('Responsive? I was going to be responsive once. They locked me in a responsive website. A small website! A small website with big divs, and divs make me crazy.')
+//  } else {
+//    console.log('Not passed.')
+//  }
+//}
+//
+//excuseMaker();
 
 
 // FUN STUFF

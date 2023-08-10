@@ -10,26 +10,47 @@
 </head>
 <body class="gradient1">
 
+<header id="header">
 <h1 class="title">CS:GO CONFIG MAKER</h1>
+<div class="creditsFooter">
+  <footer id="credits"> - made with <a id="forTheFurInYou">❤️</a> by dt123 :3</footer>
+  <footer id="refl"> - made with ❤️ by dt123 :3</footer>
+</div>
+</header>
 
-<div class="mainContainer">
+
+<div class="container">
+<div class="mainContainer" id="mainContainer"">
+<div class="mainContainerHeader">Main Box:
+  <a id="hideMain" onclick="toggleMainBoxVisibility()">(▲)</a>
+</div>
+<br/>
+<br/>
+<div id="mainContent" >
+<br/>
+<br/>
+<br/>
+<h3>Config Generator: <div class="tooltip"><strong>(?)</strong><span class="tooltiptext">Config will be generated here.</span>
+</div></h3>
 <textarea id="inputText" spellcheck="false" placeholder="Your text goes here..." rows="10" cols="55"></textarea>
 <p class="hidden" id="saveStatus">...</p>
 <input type="file" id="fileInput">
 <label for="fileName">Config Name:
 <input id="fileName" spellcheck="false" placeholder="Config name...">
 </label>
-<button onclick="saveDataToLocalStorage()">Save</button>
+<button onclick="saveDataToLocalStorage()">Save <div class="tooltip"><strong>(?)</strong><span class="tooltiptext">Will save the content to local browser, won't save it as a ".cfg" file.</span>
+</div></button>
 <br/>
 <br/>
 <div class="fixContainer">
   <textarea id="prefixText" spellcheck="false" placeholder="Prefix input..." rows="1"></textarea>
   <textarea id="suffixText" spellcheck="false" placeholder="Suffix input..." rows="1"></textarea>
 </div>
-</div>
 <br/>
-<button onclick="appendGeneratedCommandTextToParagraph()">Generate Clean Command</button>
-<button onclick="generateOutput()">Generate</button>
+<button onclick="appendGeneratedCommandTextToParagraph()">Generate Clean Command <div class="tooltip"><strong>(?)</strong><span class="tooltiptext">Will generate a cleaner, config-ready version at the "Output text..." area.<br/><br/>(E.g. removing "//" prefixes etc.)</span>
+</div></button>
+<button onclick="generateOutput()">Generate <div class="tooltip"><strong>(?)</strong><span class="tooltiptext">Will add the suffix and the prefix to the text at "Config Generator".<br/><br/>For more flexibility, read the "Information Box".</span>
+</div></button>
 <input type="checkbox" id="incrementCheckbox" checked>
 <label for="incrementCheckbox">Activate RegEx
 <div class="tooltip"><strong>(?)</strong><span class="tooltiptext">Will activate the listed Regular Expression(s):<br/><br/><li>[%NUM],</li><li>[%NUMALT],</li><li>[%NUMIN].</li><br/></span>
@@ -37,7 +58,8 @@
 </label>
 <br/>
 <br/>
-<h3>Command Generator:</h3>
+<h3>Command Generator: <div class="tooltip"><strong>(?)</strong><span class="tooltiptext">You can make your own commands here.<br/><br/>Autofill can be used by expanding the "Command && Audio List".</span>
+</div></h3>
 <textarea id="commandInput" spellcheck="false" placeholder="Start typing..."></textarea>
 <br/>
 <br/>
@@ -53,24 +75,15 @@
 </select>
 <br/>
 <br/>
-
-<div class="floating-div">
-    <div class="resize-handle bottom-right"></div>
-    <div class="drag-handle">Command && Audio List:
-    <input id="filterInput" spellcheck="false" placeholder="Add filters..." value=""/>
-    <a id="hideList" onclick="toggleSuggestionsVisibility()">(▼)</a>
-    </div>
-    <br/>
-    <br/>
-    <div id="autofillSuggestions"></div>
-    <br/>
-    <div id="pageNavigationButtons">
-      <button id="previousPage">Previous</button>
-      <button id="nextPage">Next</button>
-    </div>
-  </div>
+<br/>
 <br/>
 <div id="spellCheckResult">Spell Check: Waiting for input...</div>
+</div>
+</div>
+
+
+
+<br/>
 <br/>
 <br/>
 <br/>
@@ -85,6 +98,10 @@
   <br/>
   <div id="infoContent" >
   <dl>
+  <dt><strong>Element (?)</strong></dt>
+  <dd>Information boxes, can be used for getting extra info about the element.</dd>
+  <dd>Information will be displayed when the user hovers above them.</dd>
+
   <dt><strong>[%NUM]</strong></dt>
   <dd>Made for making aliases, that will repeat themselves, use this at the end of an alias.</dd>
   
@@ -156,12 +173,13 @@
   <br/>
   <br/>
 
-  <label for="aspect-size-multiplier">Aspect Size Multiplier
+  <label for="aspect-size-multiplier">Aspect Size Multiplier:
   <input id="aspect-size-multiplier" placeholder="Multiplier number" value="10" type="number">
   </label>
-
-  <br/>
-  <br/>
+  <label for="asciiFontSize">ASCII Display Font Size:
+    <input id="asciiFontSize" placeholder="Font size" min="1" value="10" type="number">
+  </label>
+  <p id="uploadStatus">...</p>
   <br/>
   <div><strong>ASCII Options:</strong>
   <br/>
@@ -202,12 +220,6 @@
   <div id="ascii-art-container"></div>
 </div>
 </div>
-
-<div class="creditsFooter">
-  <br/>
-  <br/>
-  <footer id="credits"> - made with <a id="forTheFurInYou">❤️</a> by dt123 :3</footer>
-  <footer id="refl"> - made with ❤️ by dt123 :3</footer>
 </div>
 
 
@@ -216,6 +228,24 @@
 <p id="generatedCommandOutput"></p>
 </h3>
 -->
+
+
+
+<div class="floating-div">
+  <div class="resize-handle bottom-right"></div>
+  <div class="drag-handle">Command && Audio List:
+  <input id="filterInput" spellcheck="false" placeholder="Add filters..." value=""/>
+  <a id="hideList" onclick="toggleSuggestionsVisibility()">(▼)</a>
+  </div>
+  <br/>
+  <br/>
+  <div id="autofillSuggestions"></div>
+  <br/>
+  <div id="pageNavigationButtons">
+    <button id="previousPage">Previous</button>
+    <button id="nextPage">Next</button>
+  </div>
+</div>
 
 <div class="resizableDiv" id="resizableDiv">
     <textarea id="outputText" spellcheck="false" placeholder="Output text..."></textarea>

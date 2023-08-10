@@ -21,7 +21,8 @@
 }
 
 *{
-    font-family: 'Courier New', Courier, monospace;
+    /*font-family: 'Courier New', Courier, monospace;*/
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     color: var(--default_text_color);
 }
 
@@ -86,8 +87,8 @@ option {
 
 .floating-div {
   position: fixed;
-  top: 5%; /* Initial position at the top */
-  left: 55%; /* Initial position at the left */
+  top: 3%; /* Initial position at the top */
+  left: 59%; /* Initial position at the left */
   background-color: #f1f1f1;
   padding: 20px;
   font-family: Arial, sans-serif;
@@ -110,6 +111,7 @@ option {
   background-color: rgba(0, 0, 0, 0.042); /* Background color with opacity */
   backdrop-filter: blur(10px); /* Blur effect for the content behind the element */
   display: block;
+  opacity: .5;
 }
 
 .resize-handle {
@@ -126,7 +128,7 @@ option {
 }  
 
 .height-transition{
-  transition: height 0.5s ease;
+  transition: height 0.5s ease, opacity 0.5s ease;
 }
 
 
@@ -147,10 +149,11 @@ option {
   background-color: var(--default_emphasize_color);
   background-color: rgba(0, 0, 0, 0.042); /* Background color with opacity */
   backdrop-filter: blur(10px); /* Blur effect for the content behind the element */
-  width: 225px;
+  width: 156px;
   height: 100%;
   overflow: hidden;
   border: 1px black solid;
+  z-index: 2;
 }  
 
 
@@ -199,6 +202,8 @@ option {
   bottom: 125%;
   left: 50%;
   transform: translateX(-50%);
+  font-size: 15px;
+  font-weight: 400;
   opacity: 0;
   transition: opacity 0.3s;
 }  
@@ -237,7 +242,14 @@ option {
 } 
 
 
+.container{
+  display: flex;
+  margin-top: 10%;
+}
 
+.container.zoomed-in {
+  display: block;
+}
 
 .infoContainer{
   background-color: #f1f1f1;
@@ -245,7 +257,6 @@ option {
   font-family: Arial, sans-serif;
   font-size: 16px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  z-index: 9999; /* Ensure it's above other elements */
   resize: both; /* Enable resizing */
   overflow: hidden; /* Hide overflowing content during resizing */
   height: 562px;
@@ -263,6 +274,7 @@ option {
   backdrop-filter: blur(10px); /* Blur effect for the content behind the element */
   display: block;
   border: 1px solid black;
+  margin-left: 10px;
 }
 
 #infoContent{
@@ -271,6 +283,44 @@ option {
   overflow-x: hidden;
   display: block;
 }
+
+
+
+
+.mainContainer{
+  background-color: #f1f1f1;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  resize: both; /* Enable resizing */
+  overflow: hidden; /* Hide overflowing content during resizing */
+  height: 970px;
+  width: 805px;
+  user-select: none;
+  box-shadow:
+  2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
+  6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
+  12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+  22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
+  41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
+  100px 100px 80px rgba(0, 0, 0, 0.07);
+  border-radius: 12px;
+  background-color: rgba(0, 0, 0, 0.042); /* Background color with opacity */
+  backdrop-filter: blur(10px); /* Blur effect for the content behind the element */
+  display: block;
+  border: 1px solid black;
+  margin-left: 10px;
+}
+
+#mainContent{
+  max-height: 90%; /* Adjust the height according to your needs */
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: block;
+}
+
+
 
 
 
@@ -304,8 +354,8 @@ option {
 
 #commandInput{
   border: 1px black solid;
-  width: 926px; 
-  height: 25px;
+  width: 700px; 
+  height: 30px;
   font-size: 16px;
   text-align: left;
   color: black;
@@ -358,7 +408,6 @@ option {
 #ascii-art-container {
   white-space: pre;
   font-family: monospace;
-  font-size: 10px;
   overflow-y: hidden;
   overflow-x: auto;
   border: none;
@@ -367,6 +416,8 @@ option {
   background-color: white;
   color: black;
 }
+
+
 
 #credits{
   user-select: none;
@@ -383,6 +434,18 @@ option {
   -webkit-text-stroke: 1px var(--default_header_color);;
   text-shadow: 0px 1px 4px black;
 } 
+
+#header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px; /* Adjust as needed */
+  opacity: 1; /* Initial opacity */
+  transition: opacity 0.5s ease; /* Smooth transition effect */
+  z-index: 2;
+  text-align: center;
+}
 
 .copyButton{
   width: 100%;
@@ -469,3 +532,17 @@ option {
   background-color: var(--e6_darkblue);
 }
   
+
+@media (max-width: 768px) {
+  /* Styles for screens up to 768px wide */
+  .container{
+    display: block;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Styles for screens up to 480px wide */
+  .container{
+    display: block;
+  }
+} 

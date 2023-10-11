@@ -3,36 +3,41 @@
 <head>
   <meta charset='utf-8'>
   <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-  <title>CS:GO Config Maker - by Swai</title>
+  <title>CS2 Config Maker - by Swai</title>
   <link rel="icon" href="./content/images/favicon.ico" type="image/x-icon"/>
-  <meta name='viewport' content='width=device-width, initial-scale=1'>
-  <link rel='stylesheet' type='text/css' media='screen' href='style.css'>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <link rel='stylesheet' type='text/css' media='screen' href='./css/style.css'>
 </head>
-<body class="gradient1">
+<body class="gradient1 exempted">
 
 <header id="header">
-<h1 class="title">CS:GO CONFIG MAKER</h1>
+<h1 class="title">CS2 CONFIG MAKER</h1>
 <div class="creditsFooter">
   <footer id="credits"> - made with <a id="forTheFurInYou">❤️</a> by dt123 :3</footer>
   <footer id="refl"> - made with ❤️ by dt123 :3</footer>
 </div>
 </header>
 
-
-<div class="container">
-<div class="mainContainer" id="mainContainer"">
+<div id="workspace" class="exempted">
+<div class="container exempted">
+<div class="mainContainer intenseGradient contentContainer" id="mainContainer"">
 <div class="mainContainerHeader">Main Box:
-  <a id="hideMain" onclick="toggleMainBoxVisibility()">(▲)</a>
+  <a id="hideMain">(▲)</a>
 </div>
 <br/>
 <br/>
 <div id="mainContent" >
-<br/>
-<br/>
-<br/>
+
 <h3>Config Generator: <div class="tooltip"><strong>(?)</strong><span class="tooltiptext">Config will be generated here.</span>
 </div></h3>
 <textarea id="inputText" spellcheck="false" placeholder="Your text goes here..." rows="10" cols="55"></textarea>
+
+<!--
+<div class="resizableDiv" id="resizableDiv">
+  <div id="resizableHandleOutput" class="resizableHandleOutput"></div>
+</div>
+-->
+
 <p class="hidden" id="saveStatus">...</p>
 <input type="file" id="fileInput">
 <label for="fileName">Config Name:
@@ -47,6 +52,12 @@
   <textarea id="suffixText" spellcheck="false" placeholder="Suffix input..." rows="1"></textarea>
 </div>
 <br/>
+<h3>Output: <div class="tooltip"><strong>(?)</strong><span class="tooltiptext">Where the output will be generated.</span></div>
+<br/>
+<br/>
+<textarea id="outputText" spellcheck="false" placeholder="Output text..."></textarea>
+<br/>
+<br/>
 <button onclick="appendGeneratedCommandTextToParagraph()">Generate Clean Command <div class="tooltip"><strong>(?)</strong><span class="tooltiptext">Will generate a cleaner, config-ready version at the "Output text..." area.<br/><br/>(E.g. removing "//" prefixes etc.)</span>
 </div></button>
 <button onclick="generateOutput()">Generate <div class="tooltip"><strong>(?)</strong><span class="tooltiptext">Will add the suffix and the prefix to the text at "Config Generator".<br/><br/>For more flexibility, read the "Information Box".</span>
@@ -57,6 +68,14 @@
 </div>
 </label>
 <br/>
+<br/>
+<div id="outputButtonContainer">
+<button class="copyButton" onclick="copyTextOutputValue()">Copy</button>
+<button id="saveButton">Save as</button>
+</div>
+<p id="copyChecker">Click "Copy" to copy...</p>
+<br/>
+<hr/>
 <br/>
 <h3>Command Generator: <div class="tooltip"><strong>(?)</strong><span class="tooltiptext">You can make your own commands here.<br/><br/>Autofill can be used by expanding the "Command && Audio List".</span>
 </div></h3>
@@ -78,95 +97,30 @@
 <br/>
 <br/>
 <div id="spellCheckResult">Spell Check: Waiting for input...</div>
+<br/>
+<hr/>
+<br/>
 </div>
 </div>
 
-
-
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<br/>
-<div class="infoContainer" id="infoContainer">
-  <div class="infoContainerHeader">Information Box:
-    <a id="hideInfo" onclick="toggleInfoBoxVisibility()">(▲)</a>
+<div class="asciiContainer intenseGradient contentContainer" id="asciiContainer">
+  <div class="asciiContainerHeader">ASCII Maker:
+    <a id="hideAscii"">(▲)</a>
   </div>
   <br/>
   <br/>
-  <div id="infoContent" >
-  <dl>
-  <dt><strong>Element (?)</strong></dt>
-  <dd>Information boxes, can be used for getting extra info about the element.</dd>
-  <dd>Information will be displayed when the user hovers above them.</dd>
-
-  <dt><strong>[%NUM]</strong></dt>
-  <dd>Made for making aliases, that will repeat themselves, use this at the end of an alias.</dd>
-  
-  <dt><strong>[%NUMALT]</strong></dt>
-  <dd>Made for making aliases, that will repeat themselves, use this one at the beginning of an alias.</dd>
-  
-  <dt><strong>[%NUMIN]</strong></dt>
-  <dd>Number increment, the more you add this the higher the number will go.</dd> 
-  
-  <dt><strong>-commands</strong></dt>
-  <dd>This is a prefix used for making the list to exclude the commands.</dd>
-  <dd><strong>default status: </strong><i class="deactiveStatus">off</i></dd>
-  <dd><strong>Indicator Suffix && Color: </strong><i>none </i><span class="colorSpan" style="background-color: #b4c7d9;">#b4c7d9</span></dd>
-  <dd><strong class="warningText-light">WARN!!: (3080 items - might cause lag to not use.)</strong></dd>
-  
-  <dt><strong>-custom</strong></dt>
-  <dd>This is a prefix used for making the list to exclude the custom stuff.</dd>
-  <dd><strong>Default Status: </strong><i class="deactiveStatus">off</i></dd>
-  <dd><strong>Indicator Suffix && Color: </strong><i>(custom) </i><span class="colorSpan" style="background-color: #d99c29;">#d99c29</span></dd>
-  <dd><strong class="warningText-verylight">WARN!!: (3 items - might cause lag to not use, but it's highly unlikely.)</strong></dd>
-
-  <dt><strong>-audio</strong></dt>
-  <dd>This is a prefix used for making the list to exclude the audio files.</dd>
-  <dd><strong>Default Status: </strong><i class="activeStatus">on</i></dd>
-  <dd><strong>Indicator Suffix && Color: </strong><i>(audio) </i><span class="colorSpan" style="background-color: #ffe666;">#ffe666</span></dd>
-  <dd><strong class="warningText-mid">WARN!!: (7101 items - might cause lag to not use and can increase the processor usage.)</strong></dd>
-  
-  <dt><strong>-props</strong></dt>
-  <dd>This is a prefix used for making the list to exclude the props.</dd>
-  <dd><strong>Default Status: </strong><i class="activeStatus">on</i></dd>
-  <dd><strong>Indicator Suffix && Color: </strong><i>(prop) </i><span class="colorSpan" style="background-color: #dc5e5e;">#dc5e5e</span></dd>
-  <dd><strong class="warningText-mid">WARN!!: (4040 items - might cause lag to not use and can increase the processor usage.)</strong></dd>
-
-  <dt><strong>-entities</strong></dt>
-  <dd>This is a prefix used for making the list to exclude the entities.</dd>
-  <dd><strong>Default Status: </strong><i class="activeStatus">on</i></dd>
-  <dd><strong>Indicator Suffix && Color: </strong><i>(entity) </i><span class="colorSpan" style="background-color: #28649c;">#28649c</span></dd>
-  <dd><strong class="warningText-verylight">WARN!!: (604 items - might cause lag to not use, but it's highly unlikely.)</strong></dd>
-
-  <dt><strong>-weapons</strong></dt>
-  <dd>This is a prefix used for making the list to exclude the weapons.</dd>
-  <dd><strong>default status: </strong><i class="deactiveStatus">off</i></dd>
-  <dd><strong>Indicator Suffix && Color: </strong><i>(weapon) </i><span class="colorSpan" style="background-color: #50555e;">#50555e</span></dd>
-  <dd><strong class="warningText-verylight">WARN!!: (57 items - might cause lag to not use, but it's highly unlikely.)</strong></dd>
-
-  <dt><strong>show:number && show:all</strong></dt>
-  <dd>This is a filter option to make the list have the stated amount of items listed per page.</dd>
-  <dd><strong>show:100</strong> <i>will list 100 items per page, you can change the number as much as you like. <strong>(default, 150)</strong></i></dd>
-  <dd><strong>show:all</strong> <i>will list all the items.</i></dd>
-  <dd><strong class="warningText-extreme">WARN!!: (57 to 14882 items - WILL CAUSE LAG, INCREASE THE PROCESSOR USAGE AND MIGHT CRASH THE BROWSER.)</strong></dd>
-  
-  <dt><strong>//</strong></dt>
-  <dd>This is a prefix used for "Generate Clean Command" to <strong>ignore</strong> that specific line.</dd>
-  <dd> Can be used to leave the lines as however they are.</dd>
-  
-  <dt><strong>//!</strong></dt>
-  <dd>This is a prefix used for "Generate Clean Command" to <strong>remove</strong> that specific line.</dd>
-  <dd> Can be used to add notes.</dd>
-  </dl>
-  <h4>You can also select "Presets" for pre-made aliases, binds and configs. Made by dt123.</h4>
-
+  <div id="asciiContent" >
+    <h1>Image to ASCII Art Converter</h1>
   <br/>
-  <br/>
-  <h1>Image to ASCII Art Converter</h1>
-  <input type="file" id="image-input">
+  <div id="dropZone" class="drop-zone">
+    <p>Drag & Drop an image here</p>
+    <input type="file" id="image-input" accept=".jpg, .jpeg, .png, .gif, .bmp, .webp, .svg" style="display:none">
+    <p id="uploadStatus"></p>
+  </div>
+  <br/>  
+  <hr/>
+  <br/> 
+
   <input type="range" id="aspect-size-slider" min="1" max="20" value="10">
   <label for="aspect-size-slider">Aspect Size</label>
   <span id="aspect-ratio"></span>
@@ -218,10 +172,106 @@
   <br/>
   <br/>
   <div id="ascii-art-container"></div>
-</div>
-</div>
+  </div>
 </div>
 
+
+
+<div class="infoContainer intenseGradient contentContainer" id="infoContainer">
+  <div class="infoContainerHeader">Information Box:
+    <a id="hideInfo">(▲)</a>
+  </div>
+  <br/>
+  <br/>
+  <div id="infoContent" >
+
+  <iframe id="tutorialvideo" src="https://www.youtube.com/embed/88Mv50RMsjc?autoplay=1&mute=1&cc_load_policy=1&rel=0&controls=1&showinfo=0&modestbranding=1&color=red" frameborder="0" allowfullscreen></iframe>
+  <br/>
+  <br/>
+  <dl>
+  <dt><strong>Element (?)</strong></dt>
+  <dd>Information boxes, can be used for getting extra info about the element.</dd>
+  <dd>Information will be displayed when the user hovers above them.</dd>
+
+  <br/>
+  <hr/>
+  <br/>
+
+  <dt><strong>[%NUM]</strong></dt>
+  <dd>Made for making aliases, that will repeat themselves, use this at the end of an alias.</dd>
+  
+  <dt><strong>[%NUMALT]</strong></dt>
+  <dd>Made for making aliases, that will repeat themselves, use this one at the beginning of an alias.</dd>
+  
+  <dt><strong>[%NUMIN]</strong></dt>
+  <dd>Number increment, the more you add this the higher the number will go.</dd> 
+  
+  <br/>
+  <hr/>
+  <br/>
+
+  <dt><strong>-commands</strong></dt>
+  <dd>This is a prefix used for making the list to exclude the commands.</dd>
+  <dd><strong>default status: </strong><i class="deactiveStatus">off</i></dd>
+  <dd><strong>Indicator Suffix && Color: </strong><i>none </i><span class="colorSpan" style="background-color: #b4c7d9;">#b4c7d9</span></dd>
+  <dd><strong class="warningText-light">WARN!!: (3080 items - might cause lag to not use.)</strong></dd>
+  
+  <dt><strong>-custom</strong></dt>
+  <dd>This is a prefix used for making the list to exclude the custom stuff.</dd>
+  <dd><strong>Default Status: </strong><i class="deactiveStatus">off</i></dd>
+  <dd><strong>Indicator Suffix && Color: </strong><i>(custom) </i><span class="colorSpan" style="background-color: #d99c29;">#d99c29</span></dd>
+  <dd><strong class="warningText-verylight">WARN!!: (3 items - might cause lag to not use, but it's highly unlikely.)</strong></dd>
+
+  <dt><strong>-audio</strong></dt>
+  <dd>This is a prefix used for making the list to exclude the audio files.</dd>
+  <dd><strong>Default Status: </strong><i class="activeStatus">on</i></dd>
+  <dd><strong>Indicator Suffix && Color: </strong><i>(audio) </i><span class="colorSpan" style="background-color: #ffe666;">#ffe666</span></dd>
+  <dd><strong class="warningText-mid">WARN!!: (7101 items - might cause lag to not use and can increase the processor usage.)</strong></dd>
+  
+  <dt><strong>-props</strong></dt>
+  <dd>This is a prefix used for making the list to exclude the props.</dd>
+  <dd><strong>Default Status: </strong><i class="activeStatus">on</i></dd>
+  <dd><strong>Indicator Suffix && Color: </strong><i>(prop) </i><span class="colorSpan" style="background-color: #dc5e5e;">#dc5e5e</span></dd>
+  <dd><strong class="warningText-mid">WARN!!: (4040 items - might cause lag to not use and can increase the processor usage.)</strong></dd>
+
+  <dt><strong>-entities</strong></dt>
+  <dd>This is a prefix used for making the list to exclude the entities.</dd>
+  <dd><strong>Default Status: </strong><i class="activeStatus">on</i></dd>
+  <dd><strong>Indicator Suffix && Color: </strong><i>(entity) </i><span class="colorSpan" style="background-color: #28649c;">#28649c</span></dd>
+  <dd><strong class="warningText-verylight">WARN!!: (604 items - might cause lag to not use, but it's highly unlikely.)</strong></dd>
+
+  <dt><strong>-weapons</strong></dt>
+  <dd>This is a prefix used for making the list to exclude the weapons.</dd>
+  <dd><strong>default status: </strong><i class="deactiveStatus">off</i></dd>
+  <dd><strong>Indicator Suffix && Color: </strong><i>(weapon) </i><span class="colorSpan" style="background-color: #50555e;">#50555e</span></dd>
+  <dd><strong class="warningText-verylight">WARN!!: (57 items - might cause lag to not use, but it's highly unlikely.)</strong></dd>
+
+  <dt><strong>show:number && show:all</strong></dt>
+  <dd>This is a filter option to make the list have the stated amount of items listed per page.</dd>
+  <dd><strong>show:100</strong> <i>will list 100 items per page, you can change the number as much as you like. <strong>(default, 150)</strong></i></dd>
+  <dd><strong>show:all</strong> <i>will list all the items.</i></dd>
+  <dd><strong class="warningText-extreme">WARN!!: (57 to 14882 items - WILL CAUSE LAG, INCREASE THE PROCESSOR USAGE AND MIGHT CRASH THE BROWSER.)</strong></dd>
+  
+  <br/>
+  <hr/>
+  <br/>
+
+  <dt><strong>//</strong></dt>
+  <dd>This is a prefix used for "Generate Clean Command" to <strong>ignore</strong> that specific line.</dd>
+  <dd> Can be used to leave the lines as however they are.</dd>
+  
+  <dt><strong>//!</strong></dt>
+  <dd>This is a prefix used for "Generate Clean Command" to <strong>remove</strong> that specific line.</dd>
+  <dd> Can be used to add notes.</dd>
+  </dl>
+
+  <br/>
+  <hr/>
+  <h4>You can also select "Presets" for pre-made aliases, binds and configs. Made by dt123.</h4>
+</div>
+</div>
+</div>
+</div>
 
 <!--
 <h3>
@@ -235,7 +285,7 @@
   <div class="resize-handle bottom-right"></div>
   <div class="drag-handle">Command && Audio List:
   <input id="filterInput" spellcheck="false" placeholder="Add filters..." value=""/>
-  <a id="hideList" onclick="toggleSuggestionsVisibility()">(▼)</a>
+  <a id="hideList">(▼)</a>
   </div>
   <br/>
   <br/>
@@ -247,21 +297,45 @@
   </div>
 </div>
 
-<div class="resizableDiv" id="resizableDiv">
-    <textarea id="outputText" spellcheck="false" placeholder="Output text..."></textarea>
-    <button class="copyButton" onclick="copyTextOutputValue()">Copy</button>
-    <button id="saveButton">Save as</button>
-    <p id="copyChecker">Click "Copy" to copy...</p>
-    <div id="resizableHandleOutput" class="resizableHandleOutput"></div>
+<div class="sidebar">
+  <span class="section">
+  <a href="https://github.com/drytarius" target="_blank">
+      <img src="./content/images/links/github.svg" alt="GitHub">
+  </a>
+  </span>
+  <span class="section">
+  <a href="https://steamcommunity.com/id/swai_js" target="_blank">
+      <img src="./content/images/links/steam.svg" alt="Steam">
+  </a>
+  </span>
+  <span class="section">
+  <a href="https://steamcommunity.com/tradeoffer/new/?partner=242182515&token=7yg-Mszf" target="_blank">
+      <img src="./content/images/links/donate.svg" alt="Donate">
+  </a>
+  </span>
+  <span class="section">
+  <a href="https://www.youtube.com/channel/UCB3AEWImcEbWfeaK__t6X-Q" target="_blank">
+      <img src="./content/images/links/youtube.svg" alt="YouTube">
+  </a>
+  </span>
+  <a href="https://developer.valvesoftware.com/wiki/CFG" target="_blank">
+  <div id="valveCFGWikiButton"></div>
+  </a>
 </div>
 
-<script src='./lists/customlist.js'></script>
-<script src='./lists/commandlist.js'></script>
-<script src='./lists/audiolist.js'></script>
-<script src='./lists/proplist.js'></script>
-<script src='./lists/entitylist.js'></script>
-<script src='./lists/weaponlist.js'></script>
-<script src='./lists/keylist.js'></script>
-<script src='index.js'></script>
+<script src='./js/lists/customlist.js'></script>
+<script src='./js/lists/commandlist.js'></script>
+<script src='./js/lists/audiolist.js'></script>
+<script src='./js/lists/proplist.js'></script>
+<script src='./js/lists/entitylist.js'></script>
+<script src='./js/lists/weaponlist.js'></script>
+<script src='./js/lists/keylist.js'></script>
+<script src='./js/index.js'></script>
+<script src='./preload/localsave.js'></script>
+<script src='./preload/retrieve.js'></script>
+<script src='./js/features/suggestions.js'></script>
+<script src='./js/features/ascii.js'></script>
+<script src='./js/interact.js'></script>
+<script src='./js/render.js'></script>
 </body>
 </html>

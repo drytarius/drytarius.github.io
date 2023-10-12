@@ -56,7 +56,8 @@ function createPopup() {
     'Here, you can create your very own CS2 configs.<br/>Make sure to check out the info box to get a heads up!<br/><br/>WARN!!: SOME OF THE COMMANDS MIGHT BE OUTDATED. IF YOU ENCOUNTER ANY, PLEASE CONSIDER REPORTING THEM.<br/><br/>https://github.com/drytarius';
 
   const image = document.createElement('img');
-  image.src = './content/images/cs2.jpg';
+  image.src = './content/images/cs2.webp';
+  image.alt = 'CS2 Welcome';
   image.style.marginTop = '25px';
   image.style.width = '100%';
   image.style.height = '100%';

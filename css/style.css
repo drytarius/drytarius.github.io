@@ -28,6 +28,11 @@
   /* Main theme colors */
 }
 
+::selection {
+  color: black;
+  background: var(--default_emphasize_color);
+}
+
 /* Track */
 ::-webkit-scrollbar {
   width: 4px; /* Width of the entire scrollbar */
@@ -86,6 +91,18 @@ input {
 }
 
 input:focus {
+  background-color: rgba(255, 255, 255, 0.02);
+  color: white;
+  outline: none; /* Remove default focus outline */
+}
+
+select {
+  border: none;
+  color: black;
+  transition: background-color 0.2s, color 0.2s;
+}
+
+select:focus {
   background-color: rgba(255, 255, 255, 0.02);
   color: white;
   outline: none; /* Remove default focus outline */
@@ -253,10 +270,6 @@ button .tooltip strong {
   resize: none; /* Disable textarea resizing */
   padding: 10px; /* Add padding for spacing */
   box-sizing: border-box; /* Include padding and border in the width */
-  background-color: rgba(0, 0, 0, 0.042); /* Background color with opacity */
-  backdrop-filter: blur(
-    10px
-  ); /* Blur effect for the content behind the element */
   border-top-right-radius: 0;
   border-bottom-right-radius: 0;
 }
@@ -285,7 +298,7 @@ button .tooltip strong {
   font-size: 16px;
   resize: both; /* Enable resizing */
   overflow: hidden; /* Hide overflowing content during resizing */
-  user-select: none;
+  user-select: text;
   box-shadow: 2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
     6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
     12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
@@ -415,12 +428,12 @@ button .tooltip strong {
 }
 
 #commandInput {
-  border: 1px black solid;
-  width: 700px;
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-left: 1px solid white;
+  width: 100%;
   height: 30px;
-  font-size: 16px;
   text-align: left;
-  color: black;
 }
 
 #hideList,
@@ -599,6 +612,7 @@ button .tooltip strong {
   z-index: 2;
   text-align: center;
   pointer-events: none;
+  user-select: none;
 }
 
 .copyButton {

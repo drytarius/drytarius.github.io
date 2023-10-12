@@ -260,73 +260,122 @@ document
   .getElementById('commandInput')
   .addEventListener('input', updateSpellCheckResult);
 
+// Create an object to store presets and their values
+const presets = {
+  empty: { input: '', prefix: '', suffix: '' },
+  preset1: {
+    input: `//alias "asciiscript" "ascii[%NUM]";\n\n//! Put your ASCII art between here:\n\n//!\n\n//! You can replace "." with the key you want to bind the ASCII art to.\n\n//bind "." "asciiscript";`,
+    prefix: 'alias "ascii[%NUMALT]" "say ',
+    suffix: '[%NUMIN]; alias asciiscript ascii[%NUM]";',
+  },
+  preset2: {
+    input: `//alias +duckjump "+jump; +duck";\n//alias -duckjump "-jump; -duck";\n\n//bind "c" "+duckjump";`,
+    prefix: '',
+    suffix: '',
+  },
+  preset3: { input: `//bind e "+use; r_cleardecals";`, prefix: '', suffix: '' },
+  preset4: { input: `//bind mwheeldown "+jump";\n//bind mwheelup "+jump";`, prefix: '', suffix: '' },
+  preset5: { input: `//bind h "toggle cl_righthand 0 1";`, prefix: '', suffix: '' },
+  preset6: { input: `//! WARNING: USE THIS AT YOUR OWN RISK!
+
+// DE-SUBTICK BINDS
+
+// MOVEMENT
+alias "+dontjump" "+jump"
+alias "-dontjump" "-jump"
+bind "mwheeldown" "+dontjump"
+
+alias "+dontjump" "+jump"
+alias "-dontjump" "-jump"
+bind "mwheelup" "+dontjump"
+
+alias "_checkw" "-forward; alias checkw"
+alias "+w" "+forward; alias checkw _checkw"
+alias "-w" "checkw"
+bind "w" "+w"
+
+alias "_checks" "-back; alias checks"
+alias "+s" "+back; alias checks _checks"
+alias "-s" "checks"
+bind "s" "+s"
+
+alias "_checka" "-left; alias checka"
+alias "+a" "+left; alias checka _checka"
+alias "-a" "checka"
+bind "a" "+a"
+
+alias "_checkd" "-right; alias checkd"
+alias "+d" "+right; alias checkd _checkd"
+alias "-d" "checkd"
+bind "d" "+d"
+
+alias "_checkcrouch" "-duck; alias checkcrouch"
+alias "+crouch" "+duck; alias checkcrouch _checkcrouch"
+alias "-crouch" "checkcrouch"
+bind "alt" "+crouch"
+
+alias "_checkcrouch" "-duck; alias checkcrouch"
+alias "+crouch" "+duck; alias checkcrouch _checkcrouch"
+alias "-crouch" "checkcrouch"
+bind "ctrl" "+crouch"
+
+alias "_checkwalk" "-sprint; alias checkwalk"
+alias "+walk" "+sprint; alias checkwalk _checkwalk"
+alias "-walk" "checkwalk"
+bind "shift" "+walk"
+
+// SHOOTING
+alias "_shooty" "-attack; alias shooty"
+
+alias "+shooty" "+attack; alias shooty _shooty"
+alias "-shooty" "shooty"
+bind "MOUSE1" "+shooty"`, prefix: '', suffix: ''},
+  preset7: { input: `// Check Michael Jackson Variables
+alias "check_mj_forward_1" "forwardback 0 0 0"
+alias "check_mj_back_1" "forwardback 0 0 0"
+alias "check_mj_left_1" "rightleft 0 0 0"
+alias "check_mj_right_1" rightleft 0 0 0"
+alias "check_mj_forward_2" ""
+alias "check_mj_back_2" ""
+alias "check_mj_left_2" ""
+alias "check_mj_right_2" ""
+alias "check_mj_forward_3" "+forward"
+alias "check_mj_back_3" "+back"
+alias "check_mj_left_3" "+left"
+alias "check_mj_right_3" "+right"
+ 
+// Calculations?
+alias "+mj_forward" "check_mj_forward_3; forwardback 0.5 0 0; alias check_mj_forward_1 forwardback 0.5 0 0; alias check_mj_forward_2 +forward"
+alias "+mj_back" "check_mj_back_3; forwardback -0.5 0 0; alias check_mj_back_1 forwardback -0.5 0 0; alias check_mj_back_2 +back"
+alias "+mj_left" "check_mj_left_3; rightleft -0.5 0 0; alias check_mj_left_1 rightleft -0.5 0 0; alias check_mj_left_2 +left"
+alias "+mj_right" "check_mj_right_3; rightleft 0.5 0 0; alias check_mj_right_1 rightleft 0.5 0 0; alias check_mj_right_2 +right"
+alias "-mj_forward" "-forward; check_mj_back_1; alias check_mj_forward_1 forwardback 0 0 0; alias check_mj_forward_2"
+alias "-mj_back" "-back; check_mj_forward_1; alias check_mj_back_1 forwardback 0 0 0; alias check_mj_back_2"
+alias "-mj_left" "-left; check_mj_right_1; alias check_mj_left_1 rightleft 0 0 0; alias check_mj_left_2"
+alias "-mj_right" "-right; check_mj_left_1; alias check_mj_right_1 rightleft 0 0 0; alias check_mj_right_2"
+alias "+michael_jackson" "-forward; -back; -left; -right; alias check_mj_forward_3; alias check_mj_back_3; alias check_mj_left_3; alias check_mj_right_3"
+alias "-michael_jackson" "check_mj_forward_2; check_mj_back_2; check_mj_left_2; check_mj_right_2; alias check_mj_forward_3 +forward; alias check_mj_back_3 +back; alias check_mj_left_3 +left; alias check_mj_right_3 +right"
+
+// Bind Michael Jackson Peak to WSAD + ALT modifier
+bind "w" "+mj_forward"
+bind "s" "+mj_back"
+bind "a" "+mj_left"
+bind "d" "+mj_right"
+bind "mouse4" "+michael_jackson"
+`}
+};
+
 // Add event listener to the dropdown to listen for changes
 dropdown.addEventListener('change', function () {
-  // Get the selected value from the dropdown
-  const dropdown = document.getElementById('dropdown');
   const selectedValue = dropdown.value;
+  const { input, prefix, suffix } = presets[selectedValue];
 
-  // Perform the action based on the selected value
-  switch (selectedValue) {
-    case 'empty':
-      // Clear everything (except the output)
-      //console.log('Preset: empty');
-
-      inputText.value = '';
-      prefixText.value = '';
-      suffixText.value = '';
-      break;
-    case 'preset1':
-      // Preset for ASCII art
-      //console.log('Preset: preset1');
-
-      inputText.value = `//alias "asciiscript" "ascii[%NUM]";
-//! Put your ASCII art between here:
-
-//!
-
-//! You can replace "." with the key you want to bind the ASCII art to.
-//bind "." "asciiscript";`;
-      prefixText.value = 'alias "ascii[%NUMALT]" "say ';
-      suffixText.value = '[%NUMIN]; alias asciiscript ascii[%NUM]";';
-      break;
-    case 'preset2':
-      // Crouchjump preset
-      //console.log('Preset: preset2');
-
-      inputText.value = `//alias +duckjump "+jump; +duck";
-//alias -duckjump "-jump; -duck";
-//bind "c" "+duckjump";`;
-      prefixText.value = '';
-      suffixText.value = '';
-      break;
-    case 'preset3':
-      //Preset for Other
-      //console.log('Preset: preset3');
-
-      inputText.value = `//bind e "+use; r_cleardecals";`;
-      prefixText.value = '';
-      suffixText.value = '';
-      break;
-    case 'preset4':
-      //console.log('Preset: preset4')
-      inputText.value = `//bind mwheeldown "+jump";
-//bind mwheelup "+jump";`;
-      prefixText.value = '';
-      suffixText.value = '';
-      break;
-    case 'preset5':
-      //console.log('Preset: preset5')
-      inputText.value = `//bind h "toggle cl_righthand 0 1";`;
-      prefixText.value = '';
-      suffixText.value = '';
-    default:
-      // Do something for default case (if needed)
-
-      //console.log('No presets selected.');
-      break;
-  }
+  // Set the input, prefix, and suffix based on the selected value
+  inputText.value = input;
+  prefixText.value = prefix;
+  suffixText.value = suffix;
 });
+
 
 function appendGeneratedCommandTextToParagraph() {
   //document.getElementById('generatedCommandOutput').innerHTML = userInput;

@@ -362,7 +362,7 @@ bind "s" "+mj_back"
 bind "a" "+mj_left"
 bind "d" "+mj_right"
 bind "mouse4" "+michael_jackson"
-`}
+`, prefix: '', suffix: ''}
 };
 
 // Add event listener to the dropdown to listen for changes
@@ -380,8 +380,14 @@ dropdown.addEventListener('change', function () {
 function appendGeneratedCommandTextToParagraph() {
   //document.getElementById('generatedCommandOutput').innerHTML = userInput;
   const cropOutput = inputText.value.replace(/\/\/(!.*)?(\n|$)/g, '');
-  const cleanOutput = cropOutput.replace(/\/\//g, '');
-  outputTextArea.value = cleanOutput;
+  
+  // This RegEx is used for replacing '//' with '', removed due to it making no sense,
+  // Since '//' can be also used for adding notes in CS2 configs
+  //const cleanOutput = cropOutput.replace(/\/\//g, '');
+  //outputTextArea.value = cleanOutput;
+
+  outputTextArea.value = cropOutput;
+
   //outputTextArea.value = userInput;
 }
 

@@ -5,6 +5,11 @@ let currentX = 103;
 let currentY = 200;
 let currentScale = 0.847332; // Initial scale factor
 
+const minScale = 0.5; // Minimum scale
+const maxScale = 1.2; // Maximum scale
+
+let lockInteraction = false;
+
 const header = document.getElementById('header');
 const scrollThreshold = 100; // Adjust the threshold as needed
 
@@ -12,7 +17,7 @@ workspace.style.transformOrigin = 'top left'; // Set the transform origin to the
 
 workspace.addEventListener('mousedown', (e) => {
   // Check if the clicked element should be exempted
-  if (!shouldExemptElement(e.target)) {
+  if (!shouldExemptElement(e.target) && !lockInteraction) {
     isWorkspaceDragging = true;
     initialX = e.clientX;
     initialY = e.clientY;
@@ -26,6 +31,10 @@ workspace.addEventListener('mousemove', (e) => {
   const deltaY = e.clientY - initialY;
   currentX += deltaX;
   currentY += deltaY;
+
+  // Clamp the currentScale to a specific range
+  currentScale = Math.min(Math.max(currentScale, minScale), maxScale);
+
   workspace.style.transform = `translate(${currentX}px, ${currentY}px) scale(${currentScale})`;
   initialX = e.clientX;
   initialY = e.clientY;
@@ -41,9 +50,13 @@ workspace.addEventListener('wheel', (e) => {
   //e.preventDefault();
 
   // Check if the clicked element should be exempted
-  if (!shouldExemptElement(e.target)) {
+  if (!shouldExemptElement(e.target) && !lockInteraction) {
     const zoomFactor = e.deltaY > 0 ? 0.9 : 1.1; // Determine zoom direction (scroll down for zoom out, scroll up for zoom in)
     currentScale *= zoomFactor;
+
+    // Clamp the currentScale to a specific range
+    currentScale = Math.min(Math.max(currentScale, minScale), maxScale);
+
     workspace.style.transform = `translate(${currentX}px, ${currentY}px) scale(${currentScale})`;
   }
 });
@@ -53,16 +66,20 @@ document.body.addEventListener('wheel', (e) => {
   //e.preventDefault();
 
   // Check if the clicked element should be exempted
-  if (!shouldExemptElement(e.target)) {
+  if (!shouldExemptElement(e.target) && !lockInteraction) {
     const zoomFactor = e.deltaY > 0 ? 0.9 : 1.1; // Determine zoom direction (scroll down for zoom out, scroll up for zoom in)
     currentScale *= zoomFactor;
+
+    // Clamp the currentScale to a specific range
+    currentScale = Math.min(Math.max(currentScale, minScale), maxScale);
+
     workspace.style.transform = `translate(${currentX}px, ${currentY}px) scale(${currentScale})`;
   }
 });
 
 document.body.addEventListener('mousedown', (e) => {
   // Check if the clicked element should be exempted
-  if (!shouldExemptElement(e.target)) {
+  if (!shouldExemptElement(e.target) && !lockInteraction) {
     isWorkspaceDragging = true;
     initialX = e.clientX;
     initialY = e.clientY;
@@ -76,6 +93,10 @@ document.body.addEventListener('mousemove', (e) => {
   const deltaY = e.clientY - initialY;
   currentX += deltaX;
   currentY += deltaY;
+
+  // Clamp the currentScale to a specific range
+  currentScale = Math.min(Math.max(currentScale, minScale), maxScale);
+
   workspace.style.transform = `translate(${currentX}px, ${currentY}px) scale(${currentScale})`;
   initialX = e.clientX;
   initialY = e.clientY;
@@ -85,6 +106,10 @@ document.body.addEventListener('mouseup', () => {
   isWorkspaceDragging = false;
   workspace.style.transition = ''; // Re-enable transition after drag
 });
+
+function externalTransform(){
+  workspace.style.transform = `translate(${currentX}px, ${currentY}px) scale(${currentScale})`;
+}
 
 // Function to check if an element should be exempted from workspace dragging based on specific conditions
 function shouldExemptElement(element) {
@@ -154,6 +179,14 @@ window.addEventListener('wheel', () => {
 
 
 
+// Color picker 
+
+//const colorInput = document.getElementById('color');
+//
+//colorInput.addEventListener('input', function () {
+//  const selectedColor = colorInput.value;
+//  document.body.style.backgroundColor = selectedColor;
+//});
 
 
 
@@ -189,6 +222,16 @@ dropZone.addEventListener('drop', (e) => {
 
 dropZone.addEventListener('click', () => {
   imageInput.click();
+});
+
+// Add event listener for the "paste" event
+window.addEventListener('paste', (e) => {
+  //e.preventDefault();
+  const files = e.clipboardData.files;
+  if (files.length > 0) {
+    imageInput.files = files;
+    handleImageSelect();
+  }
 });
 
 imageInput.addEventListener('change', handleImageSelect);

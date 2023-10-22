@@ -101,10 +101,29 @@ if (screenWidth < mobileScreenWidthThreshold) {
   console.log(
     "Hey, hey! i'm a wazy devewopew, awnd my website isn't wesponsive!"
   );
+  currentScale = 1;
+  currentX = 0;
+  currentY = 0;
+
+  lockInteraction = true;
+  externalTransform();
 } else {
   console.log('Website not loaded on a mobile device.');
   console.log('No actions are taken.');
 }
+
+window.addEventListener('resize', () => {
+  if (window.innerWidth < mobileScreenWidthThreshold) {
+    currentScale = 1;
+    currentX = 0;
+    currentY = 0;
+  
+    lockInteraction = true;
+    externalTransform();
+  } else {
+    lockInteraction = false;
+  }
+});
 
 //For the sake of it, I'm not going to use this function.
 //But if I see a single person complaining that the website isn't responsive

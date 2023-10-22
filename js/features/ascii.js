@@ -351,6 +351,8 @@ function canvasToText(canvas, image) {
   const width = canvas.width;
   const height = canvas.height;
 
+  if(width == 0 || height == 0) return;
+
   let image_data = [];
   if (settings.dithering) {
     if (

@@ -58,7 +58,7 @@
 <textarea id="outputText" spellcheck="false" placeholder="Output text..."></textarea>
 <br/>
 <br/>
-<button onclick="appendGeneratedCommandTextToParagraph()">Generate Clean Command <div class="tooltip"><strong>(?)</strong><span class="tooltiptext">Will generate a cleaner, config-ready version at the "Output text..." area.<br/><br/>(E.g. removing "//" prefixes etc.)</span>
+<button onclick="appendGeneratedCommandTextToParagraph()">Generate Clean Command <div class="tooltip"><strong>(?)</strong><span class="tooltiptext">Will generate a cleaner, config-ready version at the "Output text..." area.<br/><br/>(E.g. removing lines with "//!" prefixes etc.)</span>
 </div></button>
 <button onclick="generateOutput()">Generate <div class="tooltip"><strong>(?)</strong><span class="tooltiptext">Will add the suffix and the prefix to the text at "Config Generator".<br/><br/>For more flexibility, read the "Information Box".</span>
 </div></button>
@@ -73,7 +73,6 @@
 <button class="copyButton" onclick="copyTextOutputValue()">Copy</button>
 <button id="saveButton">Save as</button>
 </div>
-<p id="copyChecker">Click "Copy" to copy...</p>
 <br/>
 <hr/>
 <br/>
@@ -100,7 +99,6 @@
 <br/>
 <div id="spellCheckResult">Spell Check: Waiting for input...</div>
 <br/>
-<hr/>
 <br/>
 </div>
 </div>
@@ -130,7 +128,7 @@
   <br/>
 
   <label for="aspect-size-multiplier">Aspect Size Multiplier:
-  <input id="aspect-size-multiplier" placeholder="Multiplier number" value="10" type="number">
+  <input id="aspect-size-multiplier" placeholder="Multiplier number"  min="1" max="50" value="10" type="number">
   </label>
   <label for="asciiFontSize">ASCII Display Font Size:
     <input id="asciiFontSize" placeholder="Font size" min="1" value="10" type="number">
@@ -319,10 +317,22 @@
       <img src="./content/images/links/youtube.svg" alt="YouTube">
   </a>
   </span>
-  <a href="https://developer.valvesoftware.com/wiki/CFG" target="_blank">
-  <div id="valveCFGWikiButton"></div>
-  </a>
 </div>
+
+<a href="https://developer.valvesoftware.com/wiki/CFG" target="_blank">
+  <div id="valveCFGWikiButton"></div>
+</a>
+
+
+<div class="bottombar">
+  <span class="bottombar-section">
+    <p id="copyChecker">...</p>
+  </span>
+</div>
+
+<!--
+<input type="color" id="color" value="#ff0000">
+-->
 
 <script src='./js/lists/customlist.js'></script>
 <script src='./js/lists/commandlist.js'></script>

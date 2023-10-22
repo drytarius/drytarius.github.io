@@ -36,6 +36,7 @@
 /* Track */
 ::-webkit-scrollbar {
   width: 4px; /* Width of the entire scrollbar */
+  height: 4px;
 }
 
 /* Handle */
@@ -61,6 +62,59 @@ body {
   /*font-family: 'Courier New', Courier, monospace;*/
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: var(--default_text_color);
+}
+
+.title {
+  font-size: 50px;
+  font-family: 'PaulistanaIpeRegular', sans-serif;
+  color: var(--default_header_color);
+  -webkit-text-stroke: 1px var(--default_header_color);
+  text-shadow: 0px 1px 4px black;
+}
+
+#header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100px; /* Adjust as needed */
+  opacity: 1; /* Initial opacity */
+  transition: opacity 0.2s ease; /* Smooth transition effect */
+  z-index: 2;
+  text-align: center;
+  pointer-events: none;
+  user-select: none;
+}
+
+#refl {
+  -moz-transform: scaleY(-1);
+  -o-transform: scaleY(-1);
+  -webkit-transform: scaleY(-1);
+  transform: scaleY(-1);
+  -moz-transform: rotateX(210deg);
+  -o-transform: rotateX(210deg);
+  -webkit-transform: rotateX(210deg);
+  transform: rotateX(210deg);
+  perspective: 200px;
+  -webkit-mask-image: -webkit-gradient(
+    linear,
+    right top,
+    right bottom,
+    from(transparent),
+    color-stop(20%, transparent),
+    to(rgba(0, 0, 0, 0.4))
+  );
+  mask-image: none;
+  user-select: none;
+}
+
+#credits {
+  pointer-events: all;
+  user-select: none;
+}
+
+#forTheFurInYou {
+  cursor: pointer;
 }
 
 textarea::placeholder {
@@ -141,541 +195,6 @@ option {
   color: black;
 }
 
-.floating-div {
-  position: fixed;
-  top: 9%; /* Initial position at the top */
-  left: 5.8%; /* Initial position at the left */
-  padding: 20px;
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-  z-index: 3; /* Ensure it's above other elements */
-  resize: both; /* Enable resizing */
-  overflow: hidden; /* Hide overflowing content during resizing */
-  height: 25px;
-  width: 413px;
-  user-select: none;
-  box-shadow: 2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
-    6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
-    12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
-    22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
-    41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
-    100px 100px 80px rgba(0, 0, 0, 0.07);
-  border-top-right-radius: 12px;
-  border-bottom-right-radius: 12px;
-  background-color: rgba(0, 0, 0, 0.042); /* Background color with opacity */
-  backdrop-filter: blur(
-    10px
-  ); /* Blur effect for the content behind the element */
-  display: block;
-  opacity: 0.5;
-  border-left: 1px solid white;
-}
-
-.resize-handle {
-  position: absolute;
-  bottom: -5px;
-  right: -5px;
-  width: 10px;
-  height: 10px;
-  cursor: nwse-resize;
-}
-
-.drag-handle {
-  cursor: grab;
-}
-
-.height-transition {
-  transition: height 0.5s ease, opacity 0.5s ease;
-}
-
-/* The site was essentially going to have a resizable output section on the very right
-/* Now it has been removed for a better user interface design
-
-/*.resizableDiv {
-/*  position: fixed;
-/*  bottom: 0; /* Align to the bottom */
-/*  right: 0; /* Align to the left */
-/*  background-color: var(--default_emphasize_color);
-/*  background-color: rgba(0, 0, 0, 0.042); /* Background color with opacity */
-/*  backdrop-filter: blur(10px); /* Blur effect for the content behind the element */
-/*  width: 156px;
-/*  height: 100%;
-/*  overflow: hidden;
-/*  border: 1px black solid;
-/*  z-index: 2;
-/*  /*display: none;
-/*}
-*/
-
-/* Style for the resizable handle */
-/*.resizableHandleOutput {
-/*  position: absolute;
-/*  bottom: 0; /* Align to the bottom */
-/*  left: 0; /* Align to the left */
-/*  width: 5px; /* Width of the handle */
-/*  height: 100%;
-/*  cursor: col-resize; /* Set cursor to show resizing */
-/*  z-index: 1; /* Make the handle above the div content */
-/*  border-left: 2px black solid;
-/*}
-*/
-
-.tooltip {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
-}
-
-.tooltip strong {
-  color: var(--default_info_text_color);
-}
-
-button .tooltip strong {
-  color: var(--secondary_info_text_color);
-}
-
-.tooltiptext {
-  visibility: hidden;
-  width: 150px;
-  background-color: #000;
-  color: #fff;
-  text-align: center;
-  border-radius: 6px;
-  padding: 5px;
-  position: absolute;
-  z-index: 1;
-  bottom: 125%;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 15px;
-  font-weight: 400;
-  opacity: 0;
-  transition: opacity 0.3s;
-}
-
-.tooltip:hover .tooltiptext {
-  visibility: visible;
-  opacity: 1;
-}
-
-.fixContainer {
-  font-size: 16px;
-  display: flex; /* Use flexbox to split horizontally */
-  height: 100%; /* Full height of the container */
-}
-
-.fixContainer textarea {
-  flex: 1; /* Each text area takes equal space horizontally */
-  resize: none; /* Disable textarea resizing */
-  padding: 10px; /* Add padding for spacing */
-  box-sizing: border-box; /* Include padding and border in the width */
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-}
-
-#workspace {
-  position: absolute;
-  background-color: transparent;
-  background-size: 30px 30px;
-  width: 100%;
-  height: 100%;
-  opacity: 0;
-  transition: opacity 0.5s;
-}
-
-.container {
-  display: flex;
-  /*margin-top: 10%;*/
-  margin-right: 2%;
-  justify-content: right;
-  overflow: hidden;
-}
-
-.contentContainer {
-  padding: 20px;
-  font-family: Arial, sans-serif;
-  font-size: 16px;
-  resize: both; /* Enable resizing */
-  overflow: hidden; /* Hide overflowing content during resizing */
-  user-select: text;
-  box-shadow: 2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
-    6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
-    12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
-    22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
-    41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
-    100px 100px 80px rgba(0, 0, 0, 0.07);
-  border-top-right-radius: 12px;
-  border-bottom-right-radius: 12px;
-  background-color: rgba(
-    255,
-    255,
-    255,
-    0.042
-  ); /* Background color with opacity */
-  backdrop-filter: blur(
-    10px
-  ); /* Blur effect for the content behind the element */
-  display: block;
-  border-left: 1px solid white;
-  margin-left: 10px;
-}
-
-.container.zoomed-in {
-  display: block;
-}
-
-/* Crazy gradient I found on the internet */
-
-.intenseGradient::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: -10px; /* Adjust the width of the shadow as needed */
-  height: 100%;
-  width: 10px; /* Adjust the width of the shadow as needed */
-  background: linear-gradient(
-    to bottom,
-    #ffd700,
-    #fbb100,
-    #f79d03,
-    #ee7f05,
-    #ee6907,
-    #e95409,
-    #e6390a,
-    #de1e0b,
-    #de0d0d,
-    #d71427,
-    #d61039,
-    #d3114e,
-    #cf1261,
-    #c81373,
-    #c71585,
-    #cf1380,
-    #cf1261,
-    #d3134c,
-    #d61039,
-    #de1c0e,
-    #de0d0d,
-    #e94508,
-    #ee6907,
-    #ee7f05,
-    #f79d03,
-    #fbb100,
-    #ffd700,
-    #ffd700,
-    #ffd700
-  );
-  filter: blur(3px);
-}
-
-.infoContainer {
-  height: 100vh;
-  width: 25%;
-}
-
-#infoContent {
-  max-height: 90%; /* Adjust the height according to your needs */
-  padding: 2%;
-  overflow-y: auto;
-  overflow-x: hidden;
-  display: block;
-}
-
-#tutorialvideo {
-  width: 100%;
-  height: 500px;
-  border: none;
-}
-
-.mainContainer {
-  height: 100vh;
-  width: 50%;
-}
-
-#mainContent {
-  max-height: 90%; /* Adjust the height according to your needs */
-  padding: 5%;
-  overflow-y: auto;
-  overflow-x: hidden;
-  display: block;
-}
-
-.asciiContainer {
-  height: 100vh;
-  width: 25%;
-}
-
-#asciiContent {
-  max-height: 90%; /* Adjust the height according to your needs */
-  padding: 2%;
-  overflow-y: auto;
-  overflow-x: hidden;
-  display: block;
-}
-
-#inputText {
-  width: 100%;
-  height: 330px;
-  color: var(--default_text_color);
-}
-
-#outputText {
-  width: 100%;
-  height: 330px;
-  font-size: 18px;
-  color: var(--default_text_color);
-}
-
-#commandInput {
-  border-top-right-radius: 0;
-  border-bottom-right-radius: 0;
-  border-left: 1px solid white;
-  width: 100%;
-  height: 30px;
-  text-align: left;
-}
-
-#hideList,
-#hideMain,
-#hideInfo,
-#hideAscii {
-  cursor: pointer;
-}
-
-#outputButtonContainer {
-  display: flex; /* Use flexbox to split horizontally */
-  height: 100%; /* Full height of the container */
-}
-
-#outputButtonContainer button {
-  flex: 1; /* Each text area takes equal space horizontally */
-  resize: none; /* Disable textarea resizing */
-  padding: 10px; /* Add padding for spacing */
-  box-sizing: border-box; /* Include padding and border in the width */
-}
-
-#copyChecker {
-  text-align: center;
-  font-size: 15px;
-}
-
-#autofillSuggestions {
-  max-height: 90%; /* Adjust the height according to your needs */
-  overflow-y: auto;
-  overflow-x: hidden;
-  display: none;
-}
-
-#refl {
-  -moz-transform: scaleY(-1);
-  -o-transform: scaleY(-1);
-  -webkit-transform: scaleY(-1);
-  transform: scaleY(-1);
-  -moz-transform: rotateX(210deg);
-  -o-transform: rotateX(210deg);
-  -webkit-transform: rotateX(210deg);
-  transform: rotateX(210deg);
-  perspective: 200px;
-  -webkit-mask-image: -webkit-gradient(
-    linear,
-    right top,
-    right bottom,
-    from(transparent),
-    color-stop(20%, transparent),
-    to(rgba(0, 0, 0, 0.4))
-  );
-  mask-image: none;
-  user-select: none;
-}
-
-#toggleKeyListenerButton {
-  background-color: rgba(50, 205, 50, 0.5);
-}
-
-#valveCFGWikiButton {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  width: 70px;
-  height: 70px;
-  border: 1px solid white;
-  border-radius: 100%;
-  background-color: transparent;
-  transition: background-color 0.2s;
-  background-image: url('../content/images/links/questionmark.svg');
-  background-size: 50px;
-  background-position: center;
-  background-repeat: no-repeat;
-  cursor: pointer;
-}
-
-#valveCFGWikiButton:hover {
-  background-color: rgba(255, 255, 255, 0.02);
-}
-
-/* Style the sidebar */
-.sidebar {
-  position: fixed;
-  top: 10%;
-  left: 0;
-  width: 4%;
-  height: 40%;
-  display: block;
-  border-right: 1px solid white;
-  transition: opacity 0.2s ease; /* Smooth transition effect */
-  z-index: 5;
-  display: flex;
-  flex-direction: column;
-  opacity: 1;
-}
-
-/* Style the sidebar links (buttons) */
-.sidebar a {
-  display: block;
-  text-align: center;
-  margin-bottom: 20px;
-  text-decoration: none;
-  color: var(--default_text_color);
-}
-
-/* Style the sidebar images */
-.sidebar img {
-  width: 50px;
-  height: 50px;
-}
-
-.section {
-  flex: 1;
-  background-color: transparent;
-  transition: background-color 0.2s;
-  display: flex;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-  user-select: none;
-}
-
-.section:hover{
-  background-color: rgba(255, 255, 255, 0.02);
-}
-
-#ascii-art-container {
-  white-space: pre;
-  font-family: monospace;
-  overflow-y: hidden;
-  overflow-x: auto;
-  border: none;
-  border-radius: 4px;
-  user-select: text;
-  background-color: white;
-  color: black;
-}
-
-.drop-zone {
-  border: 2px dashed #ccc;
-  text-align: center;
-  padding: 20px;
-  cursor: pointer;
-}
-
-.drop-zone:hover {
-  border: 2px dashed #333;
-}
-
-
-#credits {
-  pointer-events: all;
-  user-select: none;
-}
-
-#forTheFurInYou {
-  cursor: pointer;
-}
-
-.title {
-  font-size: 50px;
-  font-family: 'PaulistanaIpeRegular', sans-serif;
-  color: var(--default_header_color);
-  -webkit-text-stroke: 1px var(--default_header_color);
-  text-shadow: 0px 1px 4px black;
-}
-
-#header {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100px; /* Adjust as needed */
-  opacity: 1; /* Initial opacity */
-  transition: opacity 0.2s ease; /* Smooth transition effect */
-  z-index: 2;
-  text-align: center;
-  pointer-events: none;
-  user-select: none;
-}
-
-.copyButton {
-  width: 600px;
-  height: 50px;
-}
-
-#saveButton {
-  width: 600px;
-  height: 50px;
-}
-
-.overlay {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background: rgba(0, 0, 0, 0.7);
-  transition: opacity 500ms;
-  visibility: visible;
-  opacity: 1;
-  z-index: 4;
-}
-
-.popup {
-  margin: 70px auto;
-  padding: 20px;
-  background: black;
-  border-radius: 5px;
-  width: 60%;
-  position: relative;
-  transition: all 5s ease-in-out;
-  user-select: text;
-  justify-content: center;
-  text-align: center;
-}
-
-.popup h2 {
-  margin-top: 0;
-  color: var(--default_header_color);
-}
-.popup .close {
-  position: absolute;
-  top: 20px;
-  right: 30px;
-  transition: all 200ms;
-  font-size: 30px;
-  font-weight: bold;
-  text-decoration: none;
-  color: var(--default_text_color);
-  cursor: pointer;
-  user-select: none;
-}
-.popup .close:hover {
-  color: var(--default_emphasize_color);
-}
-.popup .content {
-  max-height: 30%;
-  overflow: auto;
-  font-size: 20px;
-}
-
 .no-display {
   display: none;
 }
@@ -728,6 +247,679 @@ button .tooltip strong {
   background-color: var(--default_emphasize_color);
 }
 
+.tooltip {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+.tooltip strong {
+  color: var(--default_info_text_color);
+}
+
+button .tooltip strong {
+  color: var(--secondary_info_text_color);
+}
+
+.tooltiptext {
+  visibility: hidden;
+  width: 150px;
+  background-color: #000;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 5px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  transform: translateX(-50%);
+  font-size: 15px;
+  font-weight: 400;
+  opacity: 0;
+  transition: opacity 0.3s;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
+}
+
+.height-transition {
+  transition: height 0.5s ease, opacity 0.5s ease;
+}
+
+
+
+
+
+
+
+
+
+/* The Main Styling*/
+
+
+
+/* The Autofill Suggestions && Floating Div */
+
+.floating-div {
+  position: fixed;
+  top: 9%; /* Initial position at the top */
+  left: 5.8%; /* Initial position at the left */
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 3; /* Ensure it's above other elements */
+  resize: both; /* Enable resizing */
+  overflow: hidden; /* Hide overflowing content during resizing */
+  height: 25px;
+  width: 413px;
+  user-select: none;
+  box-shadow: 2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
+    6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
+    12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+    22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
+    41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
+    100px 100px 80px rgba(0, 0, 0, 0.07);
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+  background-color: rgba(0, 0, 0, 0.042); /* Background color with opacity */
+  backdrop-filter: blur(
+    10px
+  ); /* Blur effect for the content behind the element */
+  display: block;
+  opacity: 0.5;
+  border-left: 1px solid white;
+}
+
+.resize-handle {
+  position: absolute;
+  bottom: -5px;
+  right: -5px;
+  width: 10px;
+  height: 10px;
+  cursor: nwse-resize;
+}
+
+.drag-handle {
+  cursor: grab;
+}
+
+#autofillSuggestions {
+  max-height: 90%; /* Adjust the height according to your needs */
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: none;
+}
+
+/* The site was essentially going to have a resizable output section on the very right
+/* Now it has been removed for a better user interface design
+
+/*.resizableDiv {
+/*  position: fixed;
+/*  bottom: 0; /* Align to the bottom */
+/*  right: 0; /* Align to the left */
+/*  background-color: var(--default_emphasize_color);
+/*  background-color: rgba(0, 0, 0, 0.042); /* Background color with opacity */
+/*  backdrop-filter: blur(10px); /* Blur effect for the content behind the element */
+/*  width: 156px;
+/*  height: 100%;
+/*  overflow: hidden;
+/*  border: 1px black solid;
+/*  z-index: 2;
+/*  /*display: none;
+/*}
+*/
+
+/* Style for the resizable handle */
+/*.resizableHandleOutput {
+/*  position: absolute;
+/*  bottom: 0; /* Align to the bottom */
+/*  left: 0; /* Align to the left */
+/*  width: 5px; /* Width of the handle */
+/*  height: 100%;
+/*  cursor: col-resize; /* Set cursor to show resizing */
+/*  z-index: 1; /* Make the handle above the div content */
+/*  border-left: 2px black solid;
+/*}
+*/
+
+
+
+/* Main Workspace */
+
+#workspace {
+  position: absolute;
+  background-color: transparent;
+  background-size: 30px 30px;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  transition: opacity 0.5s;
+}
+
+.container {
+  display: flex;
+  /*margin-top: 10%;*/
+  margin-right: 2%;
+  justify-content: right;
+  overflow: hidden;
+}
+
+.contentContainer {
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  font-size: 16px;
+  resize: both; /* Enable resizing */
+  overflow: hidden; /* Hide overflowing content during resizing */
+  user-select: text;
+  box-shadow: 2.8px 2.8px 2.2px rgba(0, 0, 0, 0.02),
+    6.7px 6.7px 5.3px rgba(0, 0, 0, 0.028),
+    12.5px 12.5px 10px rgba(0, 0, 0, 0.035),
+    22.3px 22.3px 17.9px rgba(0, 0, 0, 0.042),
+    41.8px 41.8px 33.4px rgba(0, 0, 0, 0.05),
+    100px 100px 80px rgba(0, 0, 0, 0.07);
+  border-top-right-radius: 12px;
+  border-bottom-right-radius: 12px;
+  background-color: rgba(
+    255,
+    255,
+    255,
+    0.042
+  ); /* Background color with opacity */
+  backdrop-filter: blur(
+    10px
+  ); /* Blur effect for the content behind the element */
+  display: block;
+  border-left: 1px solid white;
+  margin-left: 10px;
+}
+
+.container.zoomed-in {
+  display: block;
+}
+
+#hideList,
+#hideMain,
+#hideInfo,
+#hideAscii {
+  cursor: pointer;
+}
+
+/* Crazy gradient I found on the internet */
+
+.intenseGradient::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -10px; /* Adjust the width of the shadow as needed */
+  height: 100%;
+  width: 10px; /* Adjust the width of the shadow as needed */
+  background: linear-gradient(
+    to bottom,
+    #ffd700,
+    #fbb100,
+    #f79d03,
+    #ee7f05,
+    #ee6907,
+    #e95409,
+    #e6390a,
+    #de1e0b,
+    #de0d0d,
+    #d71427,
+    #d61039,
+    #d3114e,
+    #cf1261,
+    #c81373,
+    #c71585,
+    #cf1380,
+    #cf1261,
+    #d3134c,
+    #d61039,
+    #de1c0e,
+    #de0d0d,
+    #e94508,
+    #ee6907,
+    #ee7f05,
+    #f79d03,
+    #fbb100,
+    #ffd700,
+    #ffd700,
+    #ffd700
+  );
+  filter: blur(3px);
+}
+
+
+
+
+
+
+
+
+
+
+/* Main Container Styling*/
+
+.mainContainer {
+  height: 100vh;
+  width: 50%;
+}
+
+#mainContent {
+  max-height: 90%; /* Adjust the height according to your needs */
+  padding: 5%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: block;
+}
+
+#inputText {
+  width: 100%;
+  height: 330px;
+  color: var(--default_text_color);
+}
+
+#outputText {
+  width: 100%;
+  height: 330px;
+  font-size: 18px;
+  color: var(--default_text_color);
+}
+
+.fixContainer {
+  font-size: 16px;
+  display: flex; /* Use flexbox to split horizontally */
+  height: 100%; /* Full height of the container */
+}
+
+.fixContainer textarea {
+  flex: 1; /* Each text area takes equal space horizontally */
+  resize: none; /* Disable textarea resizing */
+  padding: 10px; /* Add padding for spacing */
+  box-sizing: border-box; /* Include padding and border in the width */
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+}
+
+#outputButtonContainer {
+  display: flex; /* Use flexbox to split horizontally */
+  height: 100%; /* Full height of the container */
+}
+
+#outputButtonContainer button {
+  flex: 1; /* Each text area takes equal space horizontally */
+  resize: none; /* Disable textarea resizing */
+  padding: 10px; /* Add padding for spacing */
+  box-sizing: border-box; /* Include padding and border in the width */
+}
+
+.copyButton {
+  width: 600px;
+  height: 50px;
+}
+
+#saveButton {
+  width: 600px;
+  height: 50px;
+}
+
+#commandInput {
+  border-top-right-radius: 0;
+  border-bottom-right-radius: 0;
+  border-left: 1px solid white;
+  width: 100%;
+  height: 30px;
+  text-align: left;
+}
+
+#copyChecker {
+  text-align: center;
+  font-size: 15px;
+}
+
+#toggleKeyListenerButton {
+  background-color: rgba(50, 205, 50, 0.5);
+}
+
+
+
+
+
+
+
+
+
+/* ASCII Container Styling*/
+
+.asciiContainer {
+  height: 100vh;
+  width: 25%;
+}
+
+#asciiContent {
+  max-height: 90%; /* Adjust the height according to your needs */
+  padding: 2%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: block;
+}
+
+#ascii-art-container {
+  white-space: pre;
+  font-family: monospace;
+  overflow-y: hidden;
+  overflow-x: auto;
+  border: none;
+  border-radius: 4px;
+  user-select: text;
+  background-color: white;
+  color: black;
+}
+
+.drop-zone {
+  border: 2px dashed #ccc;
+  text-align: center;
+  padding: 20px;
+  cursor: pointer;
+}
+
+.drop-zone:hover {
+  border: 2px dashed #333;
+}
+
+
+
+
+
+
+
+
+
+
+/* Info Container Styling*/
+
+.infoContainer {
+  height: 100vh;
+  width: 25%;
+}
+
+#infoContent {
+  max-height: 90%; /* Adjust the height according to your needs */
+  padding: 2%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: block;
+}
+
+#tutorialvideo {
+  width: 100%;
+  height: 500px;
+  border: none;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Interface */
+
+/* Style the sidebar */
+.sidebar {
+  position: fixed;
+  top: 10%;
+  left: 0;
+  width: 4%;
+  height: 40%;
+  display: block;
+  border-right: 1px solid white;
+  transition: opacity 0.2s ease; /* Smooth transition effect */
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  opacity: 1;
+}
+
+/* Style the sidebar links (buttons) */
+.sidebar a {
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  color: var(--default_text_color);
+}
+
+.section {
+  flex: 1;
+  background-color: transparent;
+  transition: background-color 0.2s;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  max-height: 25%;
+  max-width: 100%;
+}
+
+.section img {
+  width: 65%;
+  height: 65%;
+  min-width: 65%;
+  min-height: 65%;
+  max-width: 100%;
+}
+
+.section:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+.bottombar {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 30%;
+  height: 5%;
+  background-color: transparent;
+  border-top: 1px solid white;
+  transition: opacity 0.2s ease;
+  z-index: 5;
+  display: flex;
+  flex-direction: row;
+  opacity: 1;
+}
+
+.bottombar a{
+  text-align: center;
+  text-decoration: none;
+  color: var(--default_text_color);
+}
+
+.bottombar a:hover{
+  color: var(--default_emphasize_color);
+}
+
+.bottombar-section {
+  flex: 1;
+  background-color: transparent;
+  transition: background-color 0.2s;
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  height: 100%;
+}
+
+.bottombar-section:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+
+
+/* Background Color Picker */
+
+#color {
+  /* Hide the default color input appearance */
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  width: 100%;
+  height: 100%;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  margin: 0;
+  background-color: transparent;
+
+}
+
+/* Style the color input's color box */
+#color::-webkit-color-swatch-wrapper {
+  padding: 0;
+  border: none;
+  background-color: transparent;
+}
+
+/* Style the color input's color display */
+#color::-webkit-color-swatch {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background-color: transparent;
+}
+
+
+
+/* CFGWiki Button */
+
+#valveCFGWikiButton {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  width: 70px;
+  height: 70px;
+  border: 1px solid white;
+  border-radius: 100%;
+  background-color: transparent;
+  transition: background-color 0.2s;
+  background-image: url('../content/images/links/questionmark.svg');
+  background-size: 50px;
+  background-position: center;
+  background-repeat: no-repeat;
+  cursor: pointer;
+}
+
+#valveCFGWikiButton:hover {
+  background-color: rgba(255, 255, 255, 0.02);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+/* Welcome PopUp*/
+
+.overlay {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.7);
+  transition: opacity 500ms;
+  visibility: visible;
+  opacity: 1;
+  z-index: 4;
+  overflow: auto;
+}
+
+.overlay::-webkit-scrollbar {
+  width: 0px; /* Width of the entire scrollbar */
+  height: 0px;
+  background: transparent;
+}
+
+.popup {
+  margin: 70px auto;
+  padding: 20px;
+  background: black;
+  border-radius: 5px;
+  width: 60%;
+  position: relative;
+  transition: all 5s ease-in-out;
+  user-select: text;
+  justify-content: center;
+  text-align: center;
+}
+
+.popup h2 {
+  margin-top: 0;
+  color: var(--default_header_color);
+}
+.popup .close {
+  position: absolute;
+  top: 20px;
+  right: 30px;
+  transition: all 200ms;
+  font-size: 30px;
+  font-weight: bold;
+  text-decoration: none;
+  color: var(--default_text_color);
+  cursor: pointer;
+  user-select: none;
+}
+.popup .close:hover {
+  color: var(--default_emphasize_color);
+}
+.popup .content {
+  max-height: 30%;
+  overflow: auto;
+  font-size: 20px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 /* Gradients */
 
 .gradient1 {
@@ -756,26 +948,136 @@ button .tooltip strong {
   background-color: var(--e6_darkblue);
 }
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Responsive Loading*/
+
 @media (max-width: 768px) {
   /* Styles for screens up to 768px wide */
-  .sidebar{
+  .sidebar {
     opacity: 0;
     display: none;
   }
-  #header{
+
+  .bottombar{
     opacity: 0;
     display: none;
+  }
+
+  .floating-div {
+    opacity: 0;
+    display: none;
+  }
+
+  #header {
+    opacity: 0;
+    display: none;
+  }
+
+  .container {
+    flex-direction: column; /* Arrange child elements in a column */
+  }
+
+  .contentContainer {
+    margin-bottom: 5%;
+  }
+
+  .mainContainer,
+  .asciiContainer,
+  .infoContainer {
+    width: 100%;
+  }
+
+  #mainContainer,
+  #asciiContainer,
+  #infoContainer {
+    padding: 0;
+  }
+
+  .mainContainerHeader,
+  .asciiContainerHeader,
+  .infoContainerHeader {
+    padding-left: 2%;
+  }
+
+  html,
+  body {
+    overflow: visible;
   }
 }
 
 @media (max-width: 480px) {
   /* Styles for screens up to 480px wide */
-  .sidebar{
+  .sidebar {
     opacity: 0;
     display: none;
   }
-  #header{
+
+  .bottombar{
     opacity: 0;
     display: none;
+  }
+
+  .floating-div {
+    opacity: 0;
+    display: none;
+  }
+
+  #header {
+    opacity: 0;
+    display: none;
+  }
+
+  .container {
+    flex-direction: column; /* Arrange child elements in a column */
+  }
+
+  .contentContainer {
+    margin-bottom: 5%;
+  }
+
+  .mainContainer,
+  .asciiContainer,
+  .infoContainer {
+    width: 100%;
+  }
+
+  #mainContainer,
+  #asciiContainer,
+  #infoContainer {
+    padding: 0;
+  }
+
+  .mainContainerHeader,
+  .asciiContainerHeader,
+  .infoContainerHeader {
+    padding-left: 2%;
+  }
+
+  html,
+  body {
+    overflow: visible;
   }
 }

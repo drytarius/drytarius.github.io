@@ -56,7 +56,7 @@ function createPopup() {
     'Here, you can create your very own CS2 configs.<br/>Make sure to check out the info box to get a heads up!<br/><br/>WARN!!: SOME OF THE COMMANDS MIGHT BE OUTDATED. IF YOU ENCOUNTER ANY, PLEASE CONSIDER REPORTING THEM.<br/><br/>https://github.com/drytarius';
 
   const image = document.createElement('img');
-  image.src = './content/images/cs2.webp';
+  image.src = './content/images/cs2.jpg';
   image.alt = 'CS2 Welcome';
   image.style.marginTop = '25px';
   image.style.width = '100%';
@@ -64,10 +64,10 @@ function createPopup() {
   image.style.borderRadius = '4px';
 
   // Append elements to the popup
-  popup.appendChild(h2);
-  popup.appendChild(closeButton);
+  content.appendChild(h2);
+  content.appendChild(closeButton);
+  content.appendChild(image);
   popup.appendChild(content);
-  popup.appendChild(image);
 
   // Append popup to overlay
   overlay.appendChild(popup);
